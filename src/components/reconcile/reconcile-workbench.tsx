@@ -37,7 +37,7 @@ export function ReconcileWorkbench({
 
   return (
     <div className="space-y-5">
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="rounded-card border border-line bg-surface p-4"><p className="text-[13px] text-muted">Saldo pembanding (hitung kas atau rekening koran)</p><p className="mt-1 text-xl font-semibold"><Money value={statementBalance} /></p></div>
         <div className="rounded-card border border-line bg-surface p-4"><p className="text-[13px] text-muted">Saldo Buku per {formatDate(statementDate)}</p><p className="mt-1 text-xl font-semibold"><Money value={bookBalance} /></p></div>
         <div className={`rounded-card border p-4 ${diff === 0 ? "border-accent-line bg-accent-soft" : "border-warn-line bg-warn-soft"}`}>

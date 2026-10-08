@@ -30,9 +30,9 @@
   --color-pill-ink: #0b2e20;
 
 
-  --color-warn: #a65a08;
-  --color-warn-soft: #fff8e6;
-  --color-warn-line: #f6dfa0;
+  --color-warn: #755b00;
+  --color-warn-soft: #fcf7d9;
+  --color-warn-line: #e9dd96;
 
   --color-danger: #b42318;
   --color-danger-soft: #fef1f0;
@@ -52,6 +52,7 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
   }
   html {
     background: #f4f5f6;
@@ -59,6 +60,7 @@
     scroll-padding-top: 5rem;
   }
   body {
+    overflow-x: clip;
     background: #f4f5f6;
     color: var(--color-ink);
     font-family: var(--font-sans);
@@ -193,3 +195,7 @@
     background: #fff;
   }
 }
+
+/* Konten tidak boleh lebih lebar dari layar: anak grid dan flex boleh menyusut. */
+#konten { min-width: 0; }
+#konten > * { min-width: 0; }

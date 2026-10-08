@@ -102,7 +102,7 @@ export default async function EntryDetailPage({ params, searchParams }: { params
         )}
       </div>
 
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_380px]">
         <div className="space-y-5">
           <Card>
             <CardContent>

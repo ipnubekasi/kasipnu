@@ -51,7 +51,7 @@ export function OpeningBalanceForm({ orgId, accounts, funds, defaultDate }: { or
   return (
     <form onSubmit={submit} noValidate className="space-y-4">
       {error && <Alert tone="danger" title={error.message}>{error.hint}</Alert>}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Field label="Per tanggal" htmlFor="ob-date" required error={errors.date}>
           <Input {...fieldAria("ob-date", errors.date)} type="date" value={date} max={today} onChange={(e) => setDate(e.target.value)} />
         </Field>

@@ -59,11 +59,11 @@ export function ScopeSelect({ value, programs, className }: { value: string; pro
   );
 }
 
-export function PeriodSelect({ value, from, to, defaultKey = "bulan-ini" }: { value: string; from: string; to: string; defaultKey?: string }) {
+export function PeriodSelect({ value, from, to, defaultKey = "bulan-ini", className, wrapClassName }: { value: string; from: string; to: string; defaultKey?: string; className?: string; wrapClassName?: string }) {
   const { set } = useUrlParams();
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <UrlSelect name="periode" label="Periode" value={value} defaultValue={defaultKey} options={PERIOD_OPTIONS.map((p) => ({ value: p.key, label: p.label }))} />
+    <div className={cn("flex flex-wrap items-center gap-2", wrapClassName)}>
+      <UrlSelect name="periode" label="Periode" className={className} value={value} defaultValue={defaultKey} options={PERIOD_OPTIONS.map((p) => ({ value: p.key, label: p.label }))} />
       {value === "khusus" && (
         <div className="flex items-center gap-1.5">
           <Input type="date" aria-label="Dari tanggal" className="h-9 w-auto" defaultValue={from} max={to} onChange={(e) => e.target.value && set({ dari: e.target.value, periode: "khusus" })} />

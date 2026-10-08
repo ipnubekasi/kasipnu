@@ -314,7 +314,7 @@ export function ImportWizard({ orgId, accounts, funds, programs, categories }: {
         <Card>
           <CardHeader><CardTitle>Petakan kolom: {file?.name}</CardTitle><span className="text-[13px] text-muted">{table.rows.length} baris{table.sheetName ? ` · sheet ${table.sheetName}` : ""}</span></CardHeader>
           <CardContent className="space-y-5">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {TARGETS.map((t) => (
                 <Field key={t.key} label={t.label} htmlFor={`map-${t.key}`} required={"required" in t && t.required}>
                   <Select id={`map-${t.key}`} value={mapping[t.key] === undefined ? "" : String(mapping[t.key])} onChange={(e) => setMapping({ ...mapping, [t.key]: e.target.value === "" ? undefined : Number(e.target.value) })}>
@@ -327,7 +327,7 @@ export function ImportWizard({ orgId, accounts, funds, programs, categories }: {
             <p className="text-[13px] text-muted">Untuk rekening koran: kolom Kredit adalah uang masuk dan kolom Debit adalah uang keluar dari rekening.</p>
             <div className="border-t border-line pt-4">
               <p className="mb-3 text-sm font-medium text-ink">Nilai bawaan bila kolom kosong atau tidak dipakai</p>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Field label="Rekening" htmlFor="def-acc"><Select id="def-acc" value={defaults.account} onChange={(e) => setDefaults({ ...defaults, account: e.target.value })}><option value="">Tidak ada</option>{cashAccounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}</Select></Field>
                 <Field label="Dana" htmlFor="def-fund"><Select id="def-fund" value={defaults.fund} onChange={(e) => setDefaults({ ...defaults, fund: e.target.value })}>{usableFunds.map((f) => <option key={f.id} value={f.id}>{f.name}</option>)}</Select></Field>
                 <Field label="Jenis" htmlFor="def-kind"><Select id="def-kind" value={defaults.kind} onChange={(e) => setDefaults({ ...defaults, kind: e.target.value })}><option value="">Dari kolom</option><option value="pemasukan">Pemasukan</option><option value="pengeluaran">Pengeluaran</option></Select></Field>

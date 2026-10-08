@@ -12,6 +12,7 @@ import { EmptyState } from "@/components/app/states";
 import { PeriodSelect, ScopeSelect } from "@/components/app/url-controls";
 import { CombinedNotice } from "@/components/cash/scope-notice";
 import { CashFlowChart } from "@/components/charts/cash-flow-chart";
+import { MobileSummary } from "@/components/app/mobile-summary";
 import { HealthPanel } from "@/components/health/health-panel";
 import { getAppContext, getMaster } from "@/lib/context";
 import { addMonths, formatDate, startOfMonth } from "@/lib/format";
@@ -62,7 +63,7 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
             title="Belum ada transaksi yang dibukukan"
             description="Ringkasan saldo, arus kas, dan kesehatan keuangan akan tampil setelah transaksi pertama dibukukan. Ikuti tiga langkah berikut untuk memulai."
           />
-          <ol className="mx-auto grid max-w-3xl gap-3 px-4 pb-8 sm:grid-cols-3 sm:px-6">
+          <ol className="mx-auto grid grid-cols-1 max-w-3xl gap-3 px-4 pb-8 sm:grid-cols-3 sm:px-6">
             {[
               { n: 1, icon: Landmark, title: "Daftarkan rekening", text: hasBank ? "Rekening sudah tersedia. Tambahkan lagi bila perlu." : "Kas Tunai sudah tersedia. Tambahkan rekening bank atau dompet digital.", href: "/pengaturan/rekening", cta: "Kelola rekening" },
               { n: 2, icon: Scale, title: "Isi saldo awal", text: "Masukkan uang yang sudah dimiliki organisasi saat mulai memakai aplikasi.", href: "/pengaturan/saldo-awal", cta: "Isi saldo awal" },
@@ -109,8 +110,30 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
   const scopeHealth = scope.kind === "program" ? health.programs.find((p) => p.program_id === scope.programId) : null;
   const taskCount = tasks.drafts + tasks.missing_evidence + tasks.open_reconciliations + tasks.accounts_to_reconcile.length;
 
+  const notices = (
+    <>
+      {scope.kind === "gabungan" && <CombinedNotice general={generalSummary?.closing} restricted={Number(summary.closing) - Number(generalSummary?.closing ?? 0)} />}
+      {scopeHealth && scopeHealth.reasons.length > 0 && (
+        <Alert tone={scopeHealth.status === "kritis" ? "danger" : "warn"} title={`${scope.label}: ${scopeHealth.reasons.map((r) => r.text).join(" ")}`} className="mb-4" action={<Button asChild size="sm"><Link href={`/program/${scope.programId}`}>Lihat Program</Link></Button>} />
+      )}
+    </>
+  );
+
   return (
     <>
+      <div className="lg:hidden">
+        {notices}
+        <MobileSummary
+          scopeKey={scope.key} scopeKind={scope.kind} scopeLabel={scope.label} programs={master.programs}
+          periodKey={period.key} from={period.from} to={period.to} summary={summary} net={net} canWrite={ctx.canWrite}
+          tasks={tasks} health={health} monthly={monthly.map((m) => ({ month: m.month, income: Number(m.income), expense: Number(m.expense) }))}
+          latest={latest} activePrograms={activePrograms} programSummary={programSummary}
+          categoryName={category} fundName={fundName} returnTo={"/ringkasan" + qs(sp)}
+        />
+      </div>
+
+      <div className="hidden lg:block">
+      {notices}
       <PageHeader
         title="Ringkasan Keuangan"
         description={`${scope.label} · ${period.label}`}
@@ -121,11 +144,6 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
           <PeriodSelect value={period.key} from={period.from} to={period.to} />
         </div>
       </PageHeader>
-
-      {scope.kind === "gabungan" && <CombinedNotice general={generalSummary?.closing} restricted={Number(summary.closing) - Number(generalSummary?.closing ?? 0)} />}
-      {scopeHealth && scopeHealth.reasons.length > 0 && (
-        <Alert tone={scopeHealth.status === "kritis" ? "danger" : "warn"} title={`${scope.label}: ${scopeHealth.reasons.map((r) => r.text).join(" ")}`} className="mb-4" action={<Button asChild size="sm"><Link href={`/program/${scope.programId}`}>Lihat Program</Link></Button>} />
-      )}
 
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         <Stat index={0} icon={Wallet} label="Saldo akhir" sub={`Per ${formatDate(period.to)}`} href={`/kas${qs({ ...base, periode: "semua", dari: null, sampai: null })}`}>
@@ -145,7 +163,7 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
 
       {scope.kind !== "program" && <div className="mt-5"><HealthPanel health={health} /></div>}
 
-      <div className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
+      <div className="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <Card>
           <CardHeader><CardTitle>Arus kas 6 bulan terakhir</CardTitle><span className="text-[13px] text-muted">{scope.label}</span></CardHeader>
           <CardContent>
@@ -184,7 +202,7 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
         </Card>
       </div>
 
-      <div className="mt-5 grid gap-5 xl:grid-cols-2">
+      <div className="mt-5 grid grid-cols-1 gap-5 xl:grid-cols-2">
         <Card>
           <CardHeader><CardTitle>Transaksi terbaru</CardTitle><Button asChild size="sm" variant="ghost"><Link href={`/kas${qs({ lingkup: sp.lingkup })}`}>Lihat semua<ArrowRight aria-hidden /></Link></Button></CardHeader>
           {latest.length === 0 ? (
@@ -237,6 +255,7 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
           )}
           {activePrograms.length > 0 && <p className="border-t border-line px-4 py-2.5 text-[12px] text-muted sm:px-5">Anggaran adalah rencana. Sisa dana adalah uang yang benar-benar tersedia pada dana program.</p>}
         </Card>
+      </div>
       </div>
     </>
   );

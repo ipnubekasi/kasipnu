@@ -30,7 +30,7 @@ export function HandoverForm({ orgId, members }: { orgId: string; members: Membe
         <li>Unduh paket serah terima di bawah dan serahkan bersama dokumen fisik.</li>
         <li>Alihkan akses: penerus mendapat role Bendahara, akses bendahara lama diturunkan atau dicabut.</li>
       </ol>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Bendahara penerus" htmlFor="ho-next" required>
           <Select id="ho-next" value={next} onChange={(e) => setNext(e.target.value)}>
             <option value="">Pilih anggota</option>

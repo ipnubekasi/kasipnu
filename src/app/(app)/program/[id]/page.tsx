@@ -95,7 +95,7 @@ export default async function ProgramDetailPage({ params, searchParams }: { para
               </Card>
             ))}
           </div>
-          <div className="grid gap-5 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
             <Card>
               <CardHeader><CardTitle>Asal dan penggunaan dana</CardTitle><Link href={`/kas?lingkup=${id}&periode=semua`} className="text-sm text-accent hover:underline">Lihat transaksi</Link></CardHeader>
               <CardContent>

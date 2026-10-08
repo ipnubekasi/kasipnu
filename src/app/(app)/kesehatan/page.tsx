@@ -87,7 +87,7 @@ export default async function HealthPage({ searchParams }: { searchParams: Promi
             <p className="mt-3 text-[12px] text-muted">Status memakai kondisi terburuk yang dapat dihitung. Aplikasi hanya menampilkan saran; tidak ada pesan yang dikirim kepada anggota, donatur, atau sponsor. Dihitung {formatDateTime(health.computed_at)}, aturan versi {health.rule_version}.</p>
           </Card>
 
-          <div className="grid gap-5 xl:grid-cols-2">
+          <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
             <Card>
               <CardHeader><CardTitle>A. Dana umum tersedia</CardTitle></CardHeader>
               <CardContent className="space-y-3 text-sm">

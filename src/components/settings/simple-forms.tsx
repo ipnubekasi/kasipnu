@@ -182,7 +182,7 @@ export function HealthSettingsForm({ orgId, settings, canEdit }: { orgId: string
       <CardContent className="space-y-5">
         <Alert tone="info">Ambang ini adalah kebijakan awal aplikasi yang dapat Anda sesuaikan, bukan standar universal kesehatan keuangan. Indikator adalah alat bantu pengelolaan kas, bukan penilaian audit.</Alert>
         {!canEdit && <Alert tone="info">Ambang hanya dapat diubah oleh Bendahara atau Admin.</Alert>}
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Field label="Minimum saldo aman Kas Umum" htmlFor="h-min" help="Isi 0 untuk mematikan peringatan ini.">
             <MoneyInput id="h-min" value={Number(v.min_balance)} disabled={!canEdit} onChange={(n) => set("min_balance", n ?? 0)} />
           </Field>

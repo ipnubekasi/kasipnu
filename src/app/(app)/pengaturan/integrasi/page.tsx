@@ -21,7 +21,7 @@ export default function IntegrationPage() {
       <Alert tone="info" className="mb-5">
         Integrasi sedang dipersiapkan. Pencatatan keuangan tetap dapat dilakukan melalui input transaksi dan impor mutasi rekening.
       </Alert>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {SECTIONS.map((s) => (
           <Card key={s.title}>
             <CardContent>

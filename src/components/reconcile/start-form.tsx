@@ -38,7 +38,7 @@ export function StartReconciliation({ orgId, accounts }: { orgId: string; accoun
       }}
     >
       {error && <Alert tone="danger" title={error.message}>{error.hint}</Alert>}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Field label="Rekening atau kas" htmlFor="rc-acc" required error={errs.account}>
           <Select {...fieldAria("rc-acc", errs.account)} value={account} onChange={(e) => setAccount(e.target.value)}>{accounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}</Select>
         </Field>

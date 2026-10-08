@@ -61,7 +61,7 @@ export function OrgForm({ org, logoUrl, isAdmin, canWrite, termSigners }: { org:
               )}
             </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Nama organisasi" htmlFor="o-name" required><Input id="o-name" value={v.name} onChange={set("name")} disabled={!isAdmin} /></Field>
             <Field label="Nama singkat" htmlFor="o-short"><Input id="o-short" value={v.short_name} onChange={set("short_name")} disabled={!isAdmin} /></Field>
             <Field label="Alamat sekretariat" htmlFor="o-address" className="sm:col-span-2"><Textarea id="o-address" rows={2} value={v.address} onChange={set("address")} disabled={!isAdmin} /></Field>

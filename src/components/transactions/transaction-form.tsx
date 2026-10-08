@@ -239,7 +239,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
     <form
       noValidate
       onSubmit={(e) => { e.preventDefault(); void submit("post"); }}
-      className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_340px]"
+      className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1fr)_340px]"
     >
       <div className="space-y-5">
         {formError && <Alert tone="danger" title={formError.message}>{formError.hint}</Alert>}
@@ -286,7 +286,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
               </fieldset>
             )}
 
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Tanggal transaksi" htmlFor="date" required error={errors.date}>
                 <Input {...fieldAria("date", errors.date)} type="date" value={date} max={undefined} onChange={(e) => touch(setDate)(e.target.value)} />
               </Field>
@@ -303,7 +303,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
               <>
                 <fieldset>
                   <legend className="mb-1.5 text-sm font-medium text-ink">Yang dipindahkan</legend>
-                  <div role="radiogroup" className="grid gap-2 sm:grid-cols-3">
+                  <div role="radiogroup" className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                     {([
                       ["rekening", "Antarrekening", "Dana tetap, tempat uang berubah. Contoh: setor tunai ke bank."],
                       ["dana", "Antardana", "Tempat uang tetap, pemilik dana berubah. Contoh: alokasi ke program."],
@@ -327,7 +327,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                   </div>
                 </fieldset>
 
-                <div className="grid items-start gap-4 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+                <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
                   <div className="space-y-4 rounded-control border border-line p-3">
                     <p className="text-[12px] font-semibold tracking-wide text-muted uppercase">Sumber</p>
                     <Field label={mode === "rekening" ? "Dana" : "Dana asal"} htmlFor="fund" required error={errors.fund}>
@@ -370,7 +370,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
               </>
             ) : (
               <>
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <Field label="Dana" htmlFor="fundKind" required help={fundIsProgram ? "Dana program terikat pada tujuan program." : "Dana umum yang bebas digunakan."}>
                     <Select
                       id="fundKind"
@@ -390,7 +390,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                     </Field>
                   )}
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <Field label={kind === "pengeluaran" ? "Dibayar dari" : "Diterima di"} htmlFor="account" required error={errors.account}>
                     <Select {...fieldAria("account", errors.account)} value={accountId} onChange={(e) => touch(setAccountId)(e.target.value)}>
                       <option value="">Pilih rekening atau kas</option>

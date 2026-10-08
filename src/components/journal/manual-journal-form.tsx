@@ -80,7 +80,7 @@ export function ManualJournalForm({ orgId, accounts, funds, entry }: { orgId: st
       </Alert>
       <Card>
         <CardContent className="space-y-4">
-          <div className="grid gap-4 sm:grid-cols-[200px_minmax(0,1fr)]">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-[200px_minmax(0,1fr)]">
             <Field label="Tanggal" htmlFor="mj-date" required error={errors.date}><Input {...fieldAria("mj-date", errors.date)} type="date" value={date} onChange={(e) => { setDate(e.target.value); setDirty(true); }} /></Field>
             <Field label="Uraian" htmlFor="mj-desc" required error={errors.description}><Input {...fieldAria("mj-desc", errors.description)} value={description} maxLength={200} onChange={(e) => { setDescription(e.target.value); setDirty(true); }} /></Field>
           </div>

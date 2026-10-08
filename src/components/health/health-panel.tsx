@@ -22,7 +22,7 @@ export function HealthPanel({ health }: { health: Health }) {
   const main = g.reasons[0]?.text ?? (g.status === "data_belum_cukup" ? "Riwayat pengeluaran operasional rutin belum cukup untuk menghitung ketahanan kas." : "Tidak ada kondisi yang perlu ditindaklanjuti.");
   return (
     <Card className="overflow-hidden">
-      <div className="grid lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)]">
         <div className={cn("flex flex-col gap-2 border-b p-4 sm:p-5 lg:border-r lg:border-b-0", style.box)}>
           <p className="text-[13px] font-medium text-muted">Kesehatan Keuangan · Kas Umum</p>
           <p className={cn("flex items-center gap-2 text-lg font-semibold", style.text)}>

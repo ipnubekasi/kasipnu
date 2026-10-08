@@ -23,7 +23,7 @@ export function DocumentUpload({ orgId, programs, maxMb }: { orgId: string; prog
       <Alert tone="info" title="Dokumen arsip bukan transaksi">
         Laporan lama, SK, atau rekening koran dalam bentuk PDF disimpan sebagai arsip dokumen saja. Isinya tidak otomatis menjadi transaksi. Untuk memasukkan transaksi historis, gunakan Impor dari CSV atau XLSX.
       </Alert>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Field label="Judul dokumen" htmlFor="doc-title" required error={error}>
           <Input {...fieldAria("doc-title", error)} value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Misalnya: LPJ Bendahara 2024" maxLength={150} />
         </Field>

@@ -34,7 +34,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
     return (
       <>
         <PageHeader title="Laporan" description="Pilih laporan, atur periode dan lingkup, lalu ekspor ke PDF, XLSX, atau CSV. Angka ekspor selalu sama dengan angka di layar." />
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {groups.map((g) => (
             <Card key={g} className="p-4 sm:p-5">
               <h2 className="mb-2 text-[12px] font-semibold tracking-wide text-faint uppercase">{g}</h2>

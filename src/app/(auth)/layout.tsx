@@ -20,7 +20,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           setinggi pengalih tab + padding kartu, sehingga narasi sejajar dengan judul
           "Selamat datang kembali" di dalam kartu.
         */}
-        <div className="grid items-start gap-8 lg:grid-cols-[1fr_440px] lg:gap-20">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_440px] lg:gap-20">
           <div className="hidden lg:block lg:pt-[7rem]">
             <p className="text-[13px] font-medium tracking-wide text-primary uppercase">Sistem keuangan organisasi</p>
             <h2 className="mt-3 max-w-[400px] text-[36px] leading-[1.14] font-semibold tracking-tight text-balance text-ink">

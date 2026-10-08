@@ -332,7 +332,7 @@ export function AppShell(props: ShellProps) {
       </aside>
 
       <div className={cn("transition-[padding] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]", collapsed ? "lg:pl-[7rem]" : "lg:pl-[18.5rem]")}>
-        <header className="no-print safe-top sticky top-0 z-20 bg-canvas/90 backdrop-blur-xl">
+        <header className="no-print safe-top sticky top-0 z-20 bg-canvas">
           <div className="flex h-[72px] items-center gap-3 px-4 sm:px-6">
             <Link href="/ringkasan" className="lg:hidden" aria-label="Ke Ringkasan">
               <OrgLogo src={props.logoUrl} name={props.orgName} size={40} />
@@ -399,7 +399,7 @@ export function AppShell(props: ShellProps) {
           </div>
         )}
 
-        <main id="konten" aria-label={section} className="mx-auto w-full max-w-[1400px] px-4 pt-3 pb-36 sm:px-6 lg:pt-4 lg:pb-12">
+        <main id="konten" aria-label={section} className="mx-auto w-full max-w-[1400px] px-4 pt-3 pb-40 sm:px-6 lg:pt-4 lg:pb-12">
           {props.children}
         </main>
       </div>

@@ -119,7 +119,7 @@ export function FormDialog({
           <DialogBody className="space-y-4">
             {formError && <Alert tone="danger" title={formError.message}>{formError.hint}</Alert>}
             {children}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               {visible.map((f) => {
                 const id = `fd-${f.name}`;
                 const disabled = typeof f.disabled === "function" ? f.disabled(values) : f.disabled;

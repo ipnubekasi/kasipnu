@@ -61,7 +61,7 @@ export function SetupForm({ email }: { email: string }) {
         <Field label="Nama organisasi" htmlFor="name" required error={errors.name}>
           <Input {...fieldAria("name", errors.name)} value={v.name} onChange={set("name")} />
         </Field>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label="Nama singkat" htmlFor="short_name" help="Tampil di menu dan kop laporan.">
             <Input id="short_name" value={v.short_name} onChange={set("short_name")} />
           </Field>
@@ -75,7 +75,7 @@ export function SetupForm({ email }: { email: string }) {
         <Field label="Nama periode" htmlFor="term_name" required error={errors.term_name}>
           <Input {...fieldAria("term_name", errors.term_name)} value={v.term_name} onChange={set("term_name")} />
         </Field>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label="Tanggal mulai" htmlFor="term_start" required error={errors.term_start}>
             <Input {...fieldAria("term_start", errors.term_start)} type="date" value={v.term_start} onChange={set("term_start")} />
           </Field>
@@ -87,7 +87,7 @@ export function SetupForm({ email }: { email: string }) {
       <fieldset className="space-y-4">
         <legend className="mb-1 text-sm font-semibold text-ink">Akun Anda</legend>
         <p className="text-sm text-muted">Anda masuk sebagai <strong className="text-ink">{email}</strong> dan akan menjadi Admin Organisasi sekaligus Bendahara.</p>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <Field label="Nama lengkap" htmlFor="full_name" required error={errors.full_name}>
             <Input {...fieldAria("full_name", errors.full_name)} value={v.full_name} onChange={set("full_name")} autoComplete="name" />
           </Field>
