@@ -67,6 +67,10 @@ export function LoginForm({ next, notice }: { next?: string; notice?: string }) 
       <p className="text-center text-sm">
         <Link href="/lupa-password" className="text-accent underline-offset-4 hover:underline">Lupa password?</Link>
       </p>
+      <p className="text-center text-sm">
+        Belum punya akun?{" "}
+        <Link href="/daftar" className="text-accent underline-offset-4 hover:underline">Daftar</Link>
+      </p>
     </form>
   );
 }
