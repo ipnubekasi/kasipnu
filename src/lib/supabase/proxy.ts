@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { isSupabaseConfigured, SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "./env";
 
-const PUBLIC_PATHS = ["/login", "/lupa-password", "/auth/", "/konfigurasi", "/api/cron/", "/api/integrasi/"];
+const PUBLIC_PATHS = ["/login", "/daftar", "/lupa-password", "/auth/", "/konfigurasi", "/api/cron/", "/api/integrasi/"];
 
 export async function updateSession(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -43,7 +43,7 @@ export async function updateSession(request: NextRequest) {
     response.cookies.getAll().forEach((c) => redirect.cookies.set(c));
     return redirect;
   }
-  if (signedIn && (pathname === "/login" || pathname === "/")) {
+  if (signedIn && (pathname === "/login" || pathname === "/daftar" || pathname === "/")) {
     const url = request.nextUrl.clone();
     url.pathname = "/ringkasan";
     url.search = "";
