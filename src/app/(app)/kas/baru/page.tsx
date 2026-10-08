@@ -50,7 +50,7 @@ export default async function NewTransactionPage({ searchParams }: { searchParam
 
   return (
     <>
-      <PageHeader title="Catat Transaksi" description="Simpan dan bukukan agar langsung masuk laporan, atau simpan sebagai draft untuk diperiksa dulu." back={{ href: back, label: "Kembali" }} />
+      <PageHeader title="Catat Transaksi" description="Simpan langsung, atau simpan sebagai draft dulu." back={{ href: back, label: "Kembali" }} />
       {master.cashAccounts.filter((a) => a.is_active).length === 0 ? (
         <NoWriteAccess what="mencatat transaksi sebelum ada rekening atau kas aktif" need="Bendahara untuk menambah rekening di Pengaturan" back="/pengaturan/rekening" />
       ) : (

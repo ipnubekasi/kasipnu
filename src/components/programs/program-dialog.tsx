@@ -39,7 +39,7 @@ export function ProgramDialogButton({ orgId, program, openInitially = false }: {
         open={open}
         onOpenChange={setOpen}
         title={program ? "Ubah program" : "Tambah program"}
-        description={program ? undefined : "Program memiliki dana sendiri yang terpisah dari Kas Umum, tanpa perlu rekening bank terpisah. RAB diisi setelah program dibuat."}
+        description={program ? undefined : "Setiap program punya dana sendiri, terpisah dari Kas Umum."}
         fields={program ? FIELDS : FIELDS.filter((f) => f.name !== "status" || true)}
         initial={program ? { ...program, start_date: program.start_date ?? "", end_date: program.end_date ?? "" } : { status: "perencanaan" }}
         onSubmit={async (v) => {
@@ -63,7 +63,7 @@ export function ProgramDialogButton({ orgId, program, openInitially = false }: {
           open={remove}
           onOpenChange={setRemove}
           title={`Hapus program ${program.name}?`}
-          description="Hanya program yang belum memiliki transaksi atau kebutuhan kas yang dapat dihapus. Program yang sudah berjalan sebaiknya diarsipkan agar riwayatnya tetap tersimpan."
+          description="Program yang sudah punya transaksi tidak bisa dihapus. Arsipkan saja."
           confirmLabel="Hapus program"
           tone="danger"
           pending={pending}

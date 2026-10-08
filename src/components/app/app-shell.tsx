@@ -302,7 +302,6 @@ export function AppShell(props: ShellProps) {
         </div>
 
         <div className="relative space-y-3 p-3">
-          {!collapsed && <InstallCard tone="side" />}
           {props.canWrite ? (
             collapsed ? (
               <Link href="/kas/baru" aria-label="Catat transaksi" className="mx-auto flex size-12 items-center justify-center rounded-full bg-pill text-pill-ink shadow-[0_10px_26px_-8px_rgb(243_233_92/0.55)] transition-transform hover:rotate-90 active:scale-90">

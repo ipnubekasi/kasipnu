@@ -28,7 +28,7 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
     <>
       <PageHeader
         title="Program"
-        description="Setiap program memiliki dana, RAB, transaksi, bukti, dan LPJ sendiri. Dana program terpisah dari Kas Umum tanpa memerlukan rekening bank terpisah."
+        description="Dana, anggaran, transaksi, dan bukti tiap kegiatan."
         actions={ctx.canWrite ? <ProgramDialogButton orgId={ctx.org.id} openInitially={param(sp.baru) === "1"} /> : undefined}
       />
       <Card>
@@ -40,9 +40,9 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
         </div>
         {list.length === 0 ? (
           master.programs.length === 0 ? (
-            <EmptyState icon={FolderKanban} title="Belum ada program" description="Buat program untuk kegiatan seperti kaderisasi, rapat kerja, atau kegiatan sosial. Anda dapat menyusun RAB, mengalokasikan dana dari Kas Umum, dan mencetak LPJ." action={ctx.canWrite ? <ProgramDialogButton orgId={ctx.org.id} /> : undefined} />
+            <EmptyState icon={FolderKanban} title="Belum ada program" description="Buat program untuk tiap kegiatan, misalnya kaderisasi atau rapat kerja." action={ctx.canWrite ? <ProgramDialogButton orgId={ctx.org.id} /> : undefined} />
           ) : (
-            <EmptyState icon={FolderKanban} title="Tidak ada program dengan status ini" description="Ubah filter status untuk melihat program lain, termasuk arsip." action={<Link href="/program?status=semua" className="text-sm font-medium text-accent underline underline-offset-2">Tampilkan semua program</Link>} />
+            <EmptyState icon={FolderKanban} title="Tidak ada program dengan status ini" description="Coba pilih status lain." action={<Link href="/program?status=semua" className="text-sm font-medium text-accent underline underline-offset-2">Tampilkan semua program</Link>} />
           )
         ) : (
           <>
@@ -90,7 +90,7 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
             </ul>
           </>
         )}
-        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Sisa anggaran adalah rencana yang belum terpakai. Sisa dana adalah uang yang benar-benar tersedia pada dana program. Keduanya dapat berbeda.</p>
+        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Sisa anggaran adalah rencana. Sisa dana adalah uang yang tersedia.</p>
       </Card>
     </>
   );

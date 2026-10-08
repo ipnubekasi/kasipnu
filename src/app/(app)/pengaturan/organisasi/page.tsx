@@ -15,7 +15,7 @@ export default async function OrgSettingsPage() {
   ];
   return (
     <>
-      <PageHeader title="Profil dan Logo" description="Identitas organisasi yang tampil di aplikasi dan kop laporan." />
+      <PageHeader title="Profil dan Logo" description="Nama dan logo yang tampil di aplikasi dan laporan." />
       <OrgForm org={ctx.org} logoUrl={logo} isAdmin={ctx.isAdmin} canWrite={ctx.canWrite} termSigners={termSigners} />
     </>
   );

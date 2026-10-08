@@ -39,7 +39,7 @@ export function ReconcileWorkbench({
     <div className="space-y-5">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="rounded-card border border-line bg-surface p-4"><p className="text-[13px] text-muted">Saldo pembanding (hitung kas atau rekening koran)</p><p className="mt-1 text-xl font-semibold"><Money value={statementBalance} /></p></div>
-        <div className="rounded-card border border-line bg-surface p-4"><p className="text-[13px] text-muted">Saldo Buku per {formatDate(statementDate)}</p><p className="mt-1 text-xl font-semibold"><Money value={bookBalance} /></p></div>
+        <div className="rounded-card border border-line bg-surface p-4"><p className="text-[13px] text-muted">Saldo aplikasi per {formatDate(statementDate)}</p><p className="mt-1 text-xl font-semibold"><Money value={bookBalance} /></p></div>
         <div className={`rounded-card border p-4 ${diff === 0 ? "border-accent-line bg-accent-soft" : "border-warn-line bg-warn-soft"}`}>
           <p className="text-[13px] text-muted">Selisih</p>
           <p className="mt-1 text-xl font-semibold"><Money value={diff} tone={diff === 0 ? undefined : "out"} /></p>
@@ -51,19 +51,19 @@ export function ReconcileWorkbench({
         <Alert tone="warn" title="Saldo tidak disesuaikan otomatis">
           Periksa transaksi yang belum dicatat atau salah nominal. Bila selisih memang nyata (misalnya biaya administrasi bank), catat koreksi secara eksplisit:
           <span className="mt-2 flex flex-wrap gap-2">
-            <Button asChild size="sm"><Link href={`/kas/baru?rekening=${accountId}&kategori=${diff < 0 ? "selisih_kurang" : "selisih_lebih"}&nominal=${Math.abs(diff)}&uraian=${encodeURIComponent(`Koreksi selisih rekonsiliasi per ${formatDate(statementDate)}`)}&kembali=${encodeURIComponent(`/kas/rekonsiliasi/${reconId}`)}`}><Plus aria-hidden />Catat koreksi {formatRupiah(Math.abs(diff))}</Link></Button>
+            <Button asChild size="sm"><Link href={`/kas/baru?rekening=${accountId}&kategori=${diff < 0 ? "selisih_kurang" : "selisih_lebih"}&nominal=${Math.abs(diff)}&uraian=${encodeURIComponent(`Koreksi selisih pencocokan kas per ${formatDate(statementDate)}`)}&kembali=${encodeURIComponent(`/kas/rekonsiliasi/${reconId}`)}`}><Plus aria-hidden />Catat koreksi {formatRupiah(Math.abs(diff))}</Link></Button>
           </span>
         </Alert>
       )}
 
       <div className="rounded-card border border-line bg-surface">
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line px-4 py-3 sm:px-5">
-          <p className="text-[15px] font-semibold">Mutasi pada Saldo Buku</p>
+          <p className="text-[15px] font-semibold">Mutasi di aplikasi</p>
           <p className="text-[13px] text-muted">{matched.length} cocok (<Money value={net(matched)} />) · {unmatched.length} belum dicocokkan (<Money value={net(unmatched)} />)</p>
           {editable && unmatched.length > 0 && <Button size="sm" loading={toggle.pending} onClick={() => set(unmatched.map((l) => l.id), true)}><CheckCheck aria-hidden />Tandai semua cocok</Button>}
         </div>
         {lines.length === 0 ? (
-          <p className="px-5 py-6 text-sm text-muted">Tidak ada mutasi yang belum direkonsiliasi sampai tanggal ini.</p>
+          <p className="px-5 py-6 text-sm text-muted">Tidak ada mutasi yang belum dicocokkan sampai tanggal ini.</p>
         ) : (
           <ul className="divide-y divide-line">
             {lines.map((l) => {
@@ -85,29 +85,29 @@ export function ReconcileWorkbench({
 
       {editable && (
         <div className="flex flex-wrap justify-end gap-2">
-          <Button variant="dangerOutline" onClick={() => setDeleteOpen(true)}><Trash2 aria-hidden />Hapus rekonsiliasi</Button>
-          <Button variant="primary" onClick={() => setCompleteOpen(true)}>Selesaikan Rekonsiliasi</Button>
+          <Button variant="dangerOutline" onClick={() => setDeleteOpen(true)}><Trash2 aria-hidden />Hapus pencocokan kas</Button>
+          <Button variant="primary" onClick={() => setCompleteOpen(true)}>Selesaikan Pencocokan</Button>
         </div>
       )}
       <ConfirmDialog
         open={completeOpen}
         onOpenChange={setCompleteOpen}
-        title="Selesaikan rekonsiliasi?"
-        description={diff === 0 ? "Saldo Buku sama dengan saldo pembanding. Hasil rekonsiliasi disimpan dan tidak dapat diubah." : `Masih ada selisih ${formatRupiah(diff)}. Jelaskan penyebabnya; rekonsiliasi akan disimpan beserta selisih tersebut. Saldo tidak diubah.`}
+        title="Selesaikan pencocokan kas?"
+        description={diff === 0 ? "Saldo aplikasi sama dengan saldo pembanding. Hasil pencocokan kas disimpan dan tidak dapat diubah." : `Masih ada selisih ${formatRupiah(diff)}. Jelaskan penyebabnya; pencocokan kas akan disimpan beserta selisih tersebut. Saldo tidak diubah.`}
         confirmLabel="Selesaikan"
         pending={finish.pending}
         reason={diff !== 0 ? { label: "Penjelasan selisih", required: true } : undefined}
-        onConfirm={(reason) => finish.run(() => supabase.rpc("complete_reconciliation", { p_recon_id: reconId, p_notes: reason || null }), { success: "Rekonsiliasi selesai", onSuccess: () => setCompleteOpen(false) })}
+        onConfirm={(reason) => finish.run(() => supabase.rpc("complete_reconciliation", { p_recon_id: reconId, p_notes: reason || null }), { success: "Cocokkan Kas selesai", onSuccess: () => setCompleteOpen(false) })}
       />
       <ConfirmDialog
         open={deleteOpen}
         onOpenChange={setDeleteOpen}
-        title="Hapus rekonsiliasi yang belum selesai?"
+        title="Hapus pencocokan kas yang belum selesai?"
         description="Tanda cocok pada mutasi dilepas. Transaksi tidak berubah."
         confirmLabel="Hapus"
         tone="danger"
         pending={del.pending}
-        onConfirm={() => del.run(() => supabase.rpc("delete_reconciliation", { p_recon_id: reconId }), { success: "Rekonsiliasi dihapus", refresh: false, onSuccess: () => { router.replace("/kas/rekonsiliasi"); router.refresh(); } })}
+        onConfirm={() => del.run(() => supabase.rpc("delete_reconciliation", { p_recon_id: reconId }), { success: "Cocokkan Kas dihapus", refresh: false, onSuccess: () => { router.replace("/kas/rekonsiliasi"); router.refresh(); } })}
       />
     </div>
   );

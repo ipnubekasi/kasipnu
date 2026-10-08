@@ -8,7 +8,7 @@ import {
   IoEyeOutline, IoFlagOutline, IoFlaskOutline, IoFolderOpenOutline, IoGridOutline, IoHomeOutline, IoHelpCircleOutline, IoImageOutline,
   IoInformationCircleOutline, IoListOutline, IoLockClosedOutline, IoLogOutOutline, IoMenuOutline, IoNotificationsOffOutline,
   IoNotificationsOutline, IoPersonAddOutline, IoPersonOutline, IoQrCodeOutline, IoReaderOutline, IoReceiptOutline, IoRefreshOutline,
-  IoReloadOutline, IoRemoveCircleOutline, IoScaleOutline, IoSearchOutline, IoSettingsOutline, IoShieldCheckmarkOutline, IoShieldOutline,
+  IoReloadOutline, IoRemoveCircleOutline, IoScaleOutline, IoSearchOutline, IoSettingsOutline, IoOptionsOutline, IoShieldCheckmarkOutline, IoShieldOutline,
   IoPulseOutline, IoSwapHorizontalOutline, IoSwapVerticalOutline, IoTimeOutline, IoTrashOutline, IoWalletOutline, IoWarningOutline,
 } from "react-icons/io5";
 
@@ -105,3 +105,4 @@ export const X = make(IoCloseOutline, 0, "X");
 export const XCircle = make(IoCloseCircleOutline, 0, "XCircle");
 export const ArrowLeft = make(IoArrowBackOutline, 0, "ArrowLeft");
 export const Home = make(IoHomeOutline, 0, "Home");
+export const SlidersHorizontal = make(IoOptionsOutline, 0, "SlidersHorizontal");

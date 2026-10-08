@@ -72,7 +72,7 @@ function summaryItems(s: CashSummary, showTransfers: boolean): SummaryItem[] {
 }
 
 const TRANSFER_NOTE = "Transfer internal bukan pendapatan atau beban. Pada lingkup dana tertentu ditampilkan sebagai Transfer Masuk atau Transfer Keluar; pada lingkup Gabungan sudah dieliminasi.";
-const CASH_NOTE = "Angka berbasis kas dari jurnal yang sudah dibukukan. Pemasukan dan pengeluaran sudah dikurangi pembalikan. Draft tidak dihitung.";
+const CASH_NOTE = "Angka berbasis kas dari jurnal yang sudah tercatat. Pemasukan dan pengeluaran sudah dikurangi pembatalan. Draft tidak dihitung.";
 const COMBINED_NOTE = "Lingkup Gabungan mencakup dana program yang terikat pada tujuannya; hanya Kas Umum yang bebas digunakan.";
 
 function catName(master: Master, id: string | null, fallback = "Tanpa kategori") {
@@ -135,7 +135,7 @@ async function budgetSection(c: Ctx, program: Program, f: ReportFilters): Promis
     budget: tb, realized: tr,
     section: {
       title: `Anggaran dan realisasi pengeluaran: ${program.name}`,
-      note: "Anggaran adalah rencana, bukan saldo kas. Realisasi dihitung per kategori dari pengeluaran yang dibukukan pada dana program.",
+      note: "Anggaran adalah rencana, bukan saldo kas. Realisasi dihitung per kategori dari pengeluaran yang tercatat pada dana program.",
       columns: [{ key: "name", label: "Kategori pos", width: 4 }, { key: "budget", label: "Anggaran", type: "money", width: 3 }, { key: "realized", label: "Realisasi", type: "money", width: 3 }, { key: "diff", label: "Sisa anggaran", type: "money", width: 3 }, { key: "pct", label: "Terpakai", type: "percent", width: 2 }, { key: "note", label: "Keterangan", width: 3 }],
       rows,
       totals: { name: "Jumlah", budget: tb, realized: tr, diff: tb - tr, pct: tb > 0 ? Math.round((tr / tb) * 1000) / 10 : null, note: "" },
@@ -258,7 +258,7 @@ export async function buildReport(key: ReportKey, f: ReportFilters, c: Ctx): Pro
         { title: "Saldo buku per rekening", columns: [{ key: "code", label: "Kode", width: 1.6 }, { key: "name", label: "Rekening", width: 4 }, { key: "kind", label: "Jenis", width: 2.4 }, { key: "detail", label: "Rincian", width: 3.4 }, { key: "balance", label: "Saldo buku", type: "money", width: 3 }], rows, totals: { code: "", name: "Jumlah", kind: "", detail: "", balance: total }, emptyText: "Belum ada rekening." },
         { title: "Rincian per dana", note: "Satu rekening dapat berisi uang beberapa dana.", columns: [{ key: "account", label: "Rekening", width: 4 }, { key: "fund", label: "Dana", width: 4 }, { key: "balance", label: "Saldo", type: "money", width: 3 }], rows: detail, totals: { account: "Jumlah", fund: "", balance: detail.reduce((t, r) => t + n(r.balance), 0) }, emptyText: "Belum ada saldo." },
       ];
-      base.notes.push("Saldo Buku adalah saldo menurut pencatatan aplikasi, bukan saldo bank waktu nyata. Cocokkan dengan rekening koran melalui Rekonsiliasi.");
+      base.notes.push("Saldo dihitung dari catatan aplikasi. Cocokkan dengan rekening koran lewat menu Cocokkan Kas.");
       break;
     }
     case "saldo-dana": {
@@ -292,7 +292,7 @@ export async function buildReport(key: ReportKey, f: ReportFilters, c: Ctx): Pro
       }
       base.summary = [{ label: "Jumlah debit", value: td, type: "money" }, { label: "Jumlah kredit", value: tk, type: "money" }, { label: "Keseimbangan", value: td === tk ? "Seimbang" : "TIDAK SEIMBANG", type: "text", strong: true }];
       base.sections = [{ columns: [{ key: "date", label: "Tanggal", type: "date", width: 2 }, { key: "ref", label: "Nomor", width: 2.4 }, { key: "account", label: "Uraian / Akun", width: 6.5 }, { key: "fund", label: "Dana", width: 2.8 }, { key: "debit", label: "Debit", type: "money", width: 2.6 }, { key: "credit", label: "Kredit", type: "money", width: 2.6 }], rows, totals: { date: null, ref: "", account: "Jumlah", fund: "", debit: td, credit: tk }, emptyText: "Tidak ada jurnal pada periode ini." }];
-      base.notes.push("Mencakup jurnal otomatis, jurnal penyesuaian, dan jurnal pembalikan dari sumber data yang sama.");
+      base.notes.push("Mencakup jurnal otomatis, jurnal penyesuaian, dan jurnal pembatalan dari sumber data yang sama.");
       base.landscape = true;
       break;
     }
@@ -371,7 +371,7 @@ export async function buildReport(key: ReportKey, f: ReportFilters, c: Ctx): Pro
           totals: { date: null, ref: "", desc: "Jumlah", tin: n(s.transfer_in), tout: n(s.transfer_out) }, emptyText: "Tidak ada transfer dana." },
         { ...b.section, title: "D. RAB dibandingkan realisasi" },
         { title: "E. Rincian pengeluaran", columns: [{ key: "date", label: "Tanggal", type: "date", width: 2 }, { key: "ref", label: "Nomor", width: 2.4 }, { key: "desc", label: "Uraian", width: 5 }, { key: "cat", label: "Kategori", width: 2.6 }, { key: "who", label: "Penerima", width: 2.6 }, { key: "amount", label: "Nominal", type: "money", width: 2.8 }, { key: "ev", label: "Bukti", width: 2 }],
-          rows: rows.filter((r) => r.flow_class === "pengeluaran" && (n(r.cash_in) || n(r.cash_out))).map((r) => ({ date: r.entry_date, ref: r.ref_no, desc: r.description, cat: r.kind === "pembalikan" ? "Pembalikan" : catName(master, r.category_id), who: r.counterparty ?? "", amount: n(r.cash_out) - n(r.cash_in), ev: r.kind === "pembalikan" ? "" : EVIDENCE_LABEL[r.evidence_status], _href: `/kas/${r.id}` })),
+          rows: rows.filter((r) => r.flow_class === "pengeluaran" && (n(r.cash_in) || n(r.cash_out))).map((r) => ({ date: r.entry_date, ref: r.ref_no, desc: r.description, cat: r.kind === "pembalikan" ? "Pembatalan" : catName(master, r.category_id), who: r.counterparty ?? "", amount: n(r.cash_out) - n(r.cash_in), ev: r.kind === "pembalikan" ? "" : EVIDENCE_LABEL[r.evidence_status], _href: `/kas/${r.id}` })),
           totals: { date: null, ref: "", desc: "Jumlah pengeluaran", cat: "", who: "", amount: n(s.expense), ev: "" }, emptyText: "Belum ada pengeluaran." },
         { title: "F. Saldo akhir", columns: [{ key: "k", label: "Keterangan", width: 6 }, { key: "v", label: "Nominal", type: "money", width: 3 }], rows: [
           { k: "Penerimaan dari pihak luar", v: n(s.income) }, { k: "Transfer masuk", v: n(s.transfer_in) }, { k: "Pengeluaran", v: -n(s.expense) }, { k: "Transfer keluar", v: -n(s.transfer_out) },
@@ -400,7 +400,7 @@ export async function buildReport(key: ReportKey, f: ReportFilters, c: Ctx): Pro
       base.sections = [
         { title: "A. Identitas", columns: [{ key: "k", label: "Keterangan", width: 3 }, { key: "v", label: "Isi", width: 8 }], rows: [
           { k: "Organisasi", v: c.org.name }, { k: "Periode kepengurusan", v: c.term?.name ?? "" }, { k: "Ketua", v: c.term?.chair_name ?? "" }, { k: "Sekretaris", v: c.term?.secretary_name ?? "" }, { k: "Bendahara", v: c.term?.treasurer_name ?? "" },
-          { k: "Jumlah transaksi", v: `${counts[0]} dibukukan, ${counts[1]} dibalik, ${counts[2]} masih draft` },
+          { k: "Jumlah transaksi", v: `${counts[0]} tercatat, ${counts[1]} dibatalkan, ${counts[2]} masih draft` },
         ] },
         { title: "B. Saldo per rekening", columns: [{ key: "name", label: "Rekening", width: 6 }, { key: "balance", label: "Saldo buku", type: "money", width: 3 }], rows: master.cashAccounts.map((a) => ({ name: a.name, balance: scoped.filter((p) => p.account_id === a.id).reduce((t, p) => t + n(p.balance), 0) })).filter((r) => r.balance !== 0), totals: { name: "Jumlah", balance: scoped.reduce((t, p) => t + n(p.balance), 0) }, emptyText: "Tidak ada saldo." },
         { title: "C. Saldo per dana", columns: [{ key: "name", label: "Dana", width: 6 }, { key: "balance", label: "Saldo", type: "money", width: 3 }], rows: master.funds.map((fd) => ({ name: fd.name + (fd.kind === "program" ? " (terikat)" : ""), balance: scoped.filter((p) => p.fund_id === fd.id).reduce((t, p) => t + n(p.balance), 0) })).filter((r) => r.balance !== 0), totals: { name: "Jumlah", balance: scoped.reduce((t, p) => t + n(p.balance), 0) }, emptyText: "Tidak ada saldo." },

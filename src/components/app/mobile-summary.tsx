@@ -150,9 +150,9 @@ export function MobileSummary(props: {
           <ul className="divide-y divide-line">
             {tasks.drafts > 0 && <TaskRow href="/kas?lingkup=gabungan&status=draft" icon={PencilLine} text={<><b className="tnum">{tasks.drafts}</b> transaksi masih draft</>} cta="Bukukan" />}
             {tasks.missing_evidence > 0 && <TaskRow href="/kas?lingkup=gabungan&bukti=belum_ada&status=dibukukan" icon={FileQuestion} text={<><b className="tnum">{tasks.missing_evidence}</b> transaksi belum ada bukti</>} cta="Lengkapi" />}
-            {tasks.open_reconciliations > 0 && <TaskRow href="/kas/rekonsiliasi" icon={Scale} text={<><b className="tnum">{tasks.open_reconciliations}</b> rekonsiliasi belum selesai</>} cta="Lanjutkan" />}
+            {tasks.open_reconciliations > 0 && <TaskRow href="/kas/rekonsiliasi" icon={Scale} text={<><b className="tnum">{tasks.open_reconciliations}</b> pencocokan kas belum selesai</>} cta="Lanjutkan" />}
             {tasks.accounts_to_reconcile.map((a) => (
-              <TaskRow key={a.account_id} href="/kas/rekonsiliasi" icon={Scale} text={<>{a.name} belum direkonsiliasi {a.last_date ? `sejak ${formatDate(a.last_date)}` : "sama sekali"}</>} />
+              <TaskRow key={a.account_id} href="/kas/rekonsiliasi" icon={Scale} text={<>{a.name} belum dicocokkan {a.last_date ? `sejak ${formatDate(a.last_date)}` : "sama sekali"}</>} />
             ))}
           </ul>
         )}
@@ -171,7 +171,7 @@ export function MobileSummary(props: {
           <Link href={`/kas${qs({ lingkup: props.scopeKey })}`} className="inline-flex items-center gap-1 text-[13px] font-medium text-primary">Semua<ArrowRight className="size-3.5" aria-hidden /></Link>
         </CardHeader>
         {props.latest.length === 0 ? (
-          <p className="px-4 py-4 text-[13px] text-muted">Belum ada transaksi dibukukan pada {props.scopeLabel}.</p>
+          <p className="px-4 py-4 text-[13px] text-muted">Belum ada transaksi tercatat pada {props.scopeLabel}.</p>
         ) : (
           <ul className="divide-y divide-line">
             {props.latest.map((r) => {

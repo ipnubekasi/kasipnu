@@ -75,7 +75,7 @@ export function AccountsManager({
             <THead>
               <TR className="hover:bg-transparent">
                 <TH>Kode</TH><TH>Nama</TH><TH>Jenis</TH>
-                {isCash && <><TH>Rincian</TH><TH className="text-right">Saldo Buku</TH><TH>Rekonsiliasi terakhir</TH></>}
+                {isCash && <><TH>Rincian</TH><TH className="text-right">Saldo aplikasi</TH><TH>Cocokkan Kas terakhir</TH></>}
                 <TH>Status</TH><TH />
               </TR>
             </THead>
@@ -111,7 +111,7 @@ export function AccountsManager({
         )}
         <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">
           {isCash
-            ? <>Saldo Buku adalah saldo menurut pencatatan aplikasi, bukan saldo bank waktu nyata. Cocokkan secara berkala lewat <Link href="/kas/rekonsiliasi" className="font-medium text-accent underline underline-offset-2">Rekonsiliasi</Link>. Satu rekening dapat berisi uang beberapa dana (Kas Umum dan program).</>
+            ? <>Saldo ini dihitung dari catatan aplikasi. Cocokkan dengan uang atau rekening koran lewat <Link href="/kas/rekonsiliasi" className="font-medium text-accent underline underline-offset-2">Cocokkan Kas</Link>. </>
             : "Rekening dan kas dikelola di halaman Rekening dan kas. Akun yang sudah memiliki jurnal tidak dapat diubah jenisnya atau dihapus; nonaktifkan bila tidak dipakai lagi."}
         </p>
       </Card>

@@ -137,7 +137,7 @@ export function HandoverPackage({ org, master, term, userName }: { org: Organiza
 
   return (
     <div className="space-y-3">
-      <p className="text-sm text-muted">Satu berkas ZIP berisi seluruh data, laporan utama, dan lampiran bukti, untuk diserahkan kepada bendahara berikutnya atau disimpan sebagai arsip organisasi.</p>
+      <p className="text-sm text-muted">ZIP berisi semua data, laporan, dan bukti untuk bendahara berikutnya.</p>
       <div className="flex items-start gap-2.5">
         <Checkbox id="hp-files" checked={withFiles} onChange={(e) => setWithFiles(e.target.checked)} className="mt-0.5" />
         <Label htmlFor="hp-files" className="font-normal">Sertakan lampiran bukti (ukuran berkas dapat besar)</Label>

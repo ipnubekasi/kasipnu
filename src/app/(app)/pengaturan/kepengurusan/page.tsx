@@ -9,7 +9,7 @@ export default async function TermsPage() {
   const ctx = await getAppContext();
   return (
     <>
-      <PageHeader title="Periode Kepengurusan" description="Masa khidmat pengurus. Nama ketua dan bendahara dipakai sebagai bawaan tanda tangan laporan." />
+      <PageHeader title="Periode Kepengurusan" description="Masa khidmat dan nama pengurus untuk tanda tangan laporan." />
       <TermsManager orgId={ctx.org.id} terms={ctx.terms} isAdmin={ctx.isAdmin} />
     </>
   );

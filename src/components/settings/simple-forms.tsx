@@ -52,8 +52,8 @@ export function RefSettingsForm({ orgId, settings, isAdmin }: { orgId: string; s
           <Input id="ref-digits" type="number" min={3} max={8} className="w-24" value={digits} disabled={!isAdmin} onChange={(e) => { setDigits(e.target.value); setDirty(true); }} />
         </Field>
         {invalid && <p role="alert" className="text-[13px] text-danger">Awalan hanya boleh huruf dan angka, 1 sampai 6 karakter.</p>}
-        {dup && <p className="text-[13px] text-warn">Beberapa jenis memakai awalan yang sama. Nomor tetap unik, tetapi jenis transaksi menjadi tidak terbaca dari nomornya.</p>}
-        <p className="text-[13px] text-muted">Nomor diberikan database saat transaksi dibukukan, berurutan per awalan dan tahun, dan aman dari penyimpanan bersamaan. Perubahan format hanya berlaku untuk transaksi berikutnya.</p>
+        {dup && <p className="text-[13px] text-warn">Awalan yang sama membuat jenis sulit dibedakan.</p>}
+        <p className="text-[13px] text-muted">Perubahan hanya berlaku untuk transaksi berikutnya.</p>
         {isAdmin && (
           <Button
             variant="primary"
@@ -81,7 +81,7 @@ export function PeriodsManager({ orgId, rows, canClose, isAdmin }: { orgId: stri
     <>
       <Card>
         <Table>
-          <THead><TR className="hover:bg-transparent"><TH>Periode</TH><TH className="text-right">Dibukukan</TH><TH className="text-right">Draft</TH><TH>Status</TH><TH /></TR></THead>
+          <THead><TR className="hover:bg-transparent"><TH>Periode</TH><TH className="text-right">Tercatat</TH><TH className="text-right">Draft</TH><TH>Status</TH><TH /></TR></THead>
           <TBody>
             {rows.map((r) => (
               <TR key={`${r.year}-${r.month}`}>
@@ -104,14 +104,14 @@ export function PeriodsManager({ orgId, rows, canClose, isAdmin }: { orgId: stri
           </TBody>
         </Table>
         <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">
-          Periode yang ditutup menolak pembukuan dan pembalikan bertanggal di dalamnya. Penolakan dilakukan di database, bukan hanya di tampilan. Koreksi atas transaksi di periode tertutup dicatat dengan tanggal pada periode yang masih terbuka.
+          Periode yang ditutup menolak pencatatan dan pembatalan bertanggal di dalamnya. Penolakan dilakukan di database, bukan hanya di tampilan. Koreksi atas transaksi di periode tertutup dicatat dengan tanggal pada periode yang masih terbuka.
         </p>
       </Card>
       <ConfirmDialog
         open={Boolean(close)}
         onOpenChange={(v) => !v && setClose(null)}
         title={`Tutup periode ${close ? label(close) : ""}?`}
-        description={close?.drafts ? <span className="text-warn">Masih ada {close.drafts} draft pada periode ini. Bukukan atau hapus draft terlebih dahulu.</span> : "Setelah ditutup, tidak ada transaksi baru yang dapat dibukukan dengan tanggal pada periode ini. Pastikan rekonsiliasi sudah selesai."}
+        description={close?.drafts ? <span className="text-warn">Masih ada {close.drafts} draft pada periode ini. Catat atau hapus draft terlebih dahulu.</span> : "Setelah ditutup, tidak ada transaksi baru di bulan ini."}
         confirmLabel="Tutup periode"
         pending={pending}
         onConfirm={() => run(() => supabase.rpc("close_period", { p_org: orgId, p_year: close!.year, p_month: close!.month }), { success: `Periode ${label(close!)} ditutup`, onSuccess: () => setClose(null) })}
@@ -180,7 +180,7 @@ export function HealthSettingsForm({ orgId, settings, canEdit }: { orgId: string
     <Card>
       <CardHeader><CardTitle>Ambang kesehatan keuangan</CardTitle></CardHeader>
       <CardContent className="space-y-5">
-        <Alert tone="info">Ambang ini adalah kebijakan awal aplikasi yang dapat Anda sesuaikan, bukan standar universal kesehatan keuangan. Indikator adalah alat bantu pengelolaan kas, bukan penilaian audit.</Alert>
+        <Alert tone="info">Batas ini bisa Anda sesuaikan.</Alert>
         {!canEdit && <Alert tone="info">Ambang hanya dapat diubah oleh Bendahara atau Admin.</Alert>}
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Field label="Minimum saldo aman Kas Umum" htmlFor="h-min" help="Isi 0 untuk mematikan peringatan ini.">

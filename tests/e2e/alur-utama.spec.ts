@@ -10,7 +10,7 @@ test.describe("Alur utama bendahara", () => {
   test("mencatat pengeluaran dengan bukti, membukukan, lalu membalik", async ({ page }, info) => {
     const label = `Uji E2E ${info.project.name} ${Date.now()}`;
     await page.goto("/kas");
-    const before = rupiah(await page.locator("dl dd").last().innerText());
+    const before = rupiah(await page.locator('[data-label="Saldo akhir"]').first().innerText());
 
     await page.goto("/kas/baru");
     await page.getByRole("radio", { name: "Pengeluaran" }).click();
@@ -23,7 +23,7 @@ test.describe("Alur utama bendahara", () => {
     await expect(page.getByText("kuitansi.png")).toBeVisible();
     // Preview dampak ke saldo tampil sebelum dibukukan.
     await expect(page.getByText("Dampak ke saldo")).toBeVisible();
-    await page.getByRole("button", { name: "Simpan dan Bukukan" }).filter({ visible: true }).first().click();
+    await page.getByRole("button", { name: "Simpan", exact: true }).filter({ visible: true }).first().click();
 
     await expect(page).toHaveURL(/\/kas\/[0-9a-f-]{36}/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText(/^KK-\d{4}-\d{4}$/);
@@ -38,23 +38,23 @@ test.describe("Alur utama bendahara", () => {
     await page.keyboard.press("Escape");
 
     await page.goto("/kas");
-    const after = rupiah(await page.locator("dl dd").last().innerText());
+    const after = rupiah(await page.locator('[data-label="Saldo akhir"]').first().innerText());
     expect(after).toBe(before - 12345);
 
     // Pembalikan menjaga riwayat dan mengembalikan saldo.
     await page.getByRole("link", { name: label }).first().click();
-    await page.getByRole("button", { name: "Balik" }).click();
-    await page.getByLabel("Alasan pembalikan").fill("Uji pembalikan otomatis");
+    await page.getByRole("button", { name: "Batalkan", exact: true }).click();
+    await page.getByLabel("Alasan pembatalan").fill("Uji pembatalan otomatis");
     await page.getByLabel("Buat transaksi pengganti sebagai draft").uncheck();
-    await page.getByRole("button", { name: "Balik transaksi" }).click();
-    await expect(page.getByText(/sudah dibalik oleh/)).toBeVisible();
+    await page.getByRole("button", { name: "Batalkan transaksi" }).click();
+    await expect(page.getByText(/Dibatalkan oleh/)).toBeVisible();
     await page.goto("/kas");
-    expect(rupiah(await page.locator("dl dd").last().innerText())).toBe(before);
+    expect(rupiah(await page.locator('[data-label="Saldo akhir"]').first().innerText())).toBe(before);
   });
 
   test("validasi inline mencegah penyimpanan formulir kosong", async ({ page }) => {
     await page.goto("/kas/baru");
-    await page.getByRole("button", { name: "Simpan dan Bukukan" }).filter({ visible: true }).first().click();
+    await page.getByRole("button", { name: "Simpan", exact: true }).filter({ visible: true }).first().click();
     await expect(page.getByText("Nominal harus lebih besar dari nol.")).toBeVisible();
     await expect(page.getByText("Uraian wajib diisi, minimal 3 huruf.")).toBeVisible();
     await expect(page).toHaveURL(/\/kas\/baru/);

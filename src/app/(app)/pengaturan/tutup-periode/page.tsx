@@ -36,7 +36,7 @@ export default async function ClosePeriodPage() {
   }
   return (
     <>
-      <PageHeader title="Tutup Periode" description="Kunci pembukuan bulan yang sudah selesai agar laporan yang sudah dilaporkan tidak berubah." />
+      <PageHeader title="Tutup Periode" description="Kunci bulan yang sudah selesai agar angkanya tidak berubah." />
       <PeriodsManager orgId={ctx.org.id} rows={rows} canClose={ctx.canWrite || ctx.isAdmin} isAdmin={ctx.isAdmin} />
     </>
   );

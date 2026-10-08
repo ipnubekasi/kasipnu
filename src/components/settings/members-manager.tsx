@@ -18,7 +18,7 @@ import { useAction } from "@/components/app/hooks";
 
 const ROLE_OPTIONS = [
   { value: "admin", label: ROLE_LABEL.admin, group: "Pengaturan, akun pengguna, buka kembali periode, serah terima." },
-  { value: "bendahara", label: ROLE_LABEL.bendahara, group: "Mencatat, membukukan, membalik, impor, rekonsiliasi." },
+  { value: "bendahara", label: ROLE_LABEL.bendahara, group: "Mencatat, membatalkan, impor, cocokkan kas." },
   { value: "pembaca", label: ROLE_LABEL.pembaca, group: "Melihat data dan laporan tanpa mengubah." },
 ];
 
@@ -120,7 +120,7 @@ export function MembersManager({ orgId, members, isAdmin, selfUserId, inviteEnab
         open={Boolean(revoke)}
         onOpenChange={(v) => !v && setRevoke(null)}
         title={`Cabut akses ${revoke?.full_name}?`}
-        description="Pengguna ini tidak akan dapat lagi membuka data atau bukti. Riwayat pencatatannya tetap tersimpan. Akses dapat dipulihkan kapan saja."
+        description="Pengguna ini tidak bisa lagi membuka data. Akses bisa dipulihkan kapan saja."
         confirmLabel="Cabut akses"
         tone="danger"
         pending={pending}

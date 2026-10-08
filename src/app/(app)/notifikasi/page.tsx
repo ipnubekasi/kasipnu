@@ -23,7 +23,7 @@ export default async function NotificationsPage({ searchParams }: { searchParams
   const items = (data ?? []) as Notification[];
   return (
     <>
-      <PageHeader title="Notifikasi" description="Peringatan kesehatan keuangan dan ringkasan mingguan. Notifikasi selesai otomatis saat penyebabnya teratasi; status dibaca tidak berarti masalah sudah selesai." />
+      <PageHeader title="Notifikasi" description="Peringatan dan ringkasan mingguan." />
       <LinkTabs active={filter} tabs={[
         { key: "aktif", label: "Aktif", href: "/notifikasi" },
         { key: "belum_dibaca", label: "Belum dibaca", href: "/notifikasi?f=belum_dibaca" },
@@ -35,7 +35,7 @@ export default async function NotificationsPage({ searchParams }: { searchParams
           <EmptyState
             icon={BellOff}
             title={filter === "aktif" ? "Tidak ada notifikasi aktif" : "Tidak ada notifikasi"}
-            description={filter === "aktif" ? "Semua kondisi keuangan berada dalam ambang yang ditetapkan. Pemeriksaan berjalan setiap hari dan setiap kali ada pembukuan." : "Belum ada notifikasi pada kelompok ini."}
+            description={filter === "aktif" ? "Semua kondisi aman." : "Belum ada notifikasi pada kelompok ini."}
             action={<Link href="/kesehatan" className="text-sm font-medium text-accent underline underline-offset-2">Lihat Kesehatan Keuangan</Link>}
           />
         ) : (

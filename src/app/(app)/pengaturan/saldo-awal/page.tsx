@@ -22,22 +22,22 @@ export default async function OpeningBalancePage() {
   const total = (rows ?? []).filter((r) => r.status === "dibukukan").reduce((t, r) => t + Number(r.amount), 0);
   return (
     <>
-      <PageHeader title="Saldo Awal" description="Uang yang sudah dimiliki organisasi saat mulai memakai aplikasi. Saldo awal bukan pemasukan periode berjalan dan tidak dihitung sebagai pendapatan." />
+      <PageHeader title="Saldo Awal" description="Uang yang sudah ada saat mulai memakai aplikasi." />
       {ctx.canWrite ? (
         <Card className="mb-5">
           <CardHeader><CardTitle>Tambah saldo awal</CardTitle></CardHeader>
           <CardContent>
             <OpeningBalanceForm orgId={ctx.org.id} accounts={master.cashAccounts.filter((a) => a.is_active)} funds={usableFunds} defaultDate={ctx.activeTerm?.start_date ?? todayJakarta()} />
-            <p className="mt-3 text-[13px] text-muted">Isi satu baris untuk setiap rekening. Bila sebagian uang di rekening adalah dana program, catat bagian itu dengan memilih dana programnya.</p>
+            <p className="mt-3 text-[13px] text-muted">Isi satu baris per rekening. Uang milik program dicatat dengan memilih dananya.</p>
           </CardContent>
         </Card>
       ) : (
-        <Alert tone="info" className="mb-5">Saldo awal hanya dapat dibukukan oleh Bendahara.</Alert>
+        <Alert tone="info" className="mb-5">Saldo awal hanya dapat tercatat oleh Bendahara.</Alert>
       )}
       <Card>
-        <CardHeader><CardTitle>Saldo awal yang sudah dibukukan</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Saldo awal yang sudah tercatat</CardTitle></CardHeader>
         {!rows?.length ? (
-          <EmptyState title="Belum ada saldo awal" description="Bila organisasi belum memiliki uang saat mulai memakai aplikasi, bagian ini boleh dilewati." />
+          <EmptyState title="Belum ada saldo awal" description="Lewati bila belum ada uang saat mulai." />
         ) : (
           <Table>
             <THead><TR className="hover:bg-transparent"><TH>Tanggal</TH><TH>Nomor</TH><TH>Rekening</TH><TH>Dana</TH><TH className="text-right">Nominal</TH><TH>Status</TH></TR></THead>
@@ -53,10 +53,10 @@ export default async function OpeningBalancePage() {
                 </TR>
               ))}
             </TBody>
-            <TFoot><TR className="hover:bg-transparent"><TD colSpan={4}>Jumlah saldo awal (tidak termasuk yang dibalik)</TD><TD className="num"><Money value={total} /></TD><TD /></TR></TFoot>
+            <TFoot><TR className="hover:bg-transparent"><TD colSpan={4}>Jumlah saldo awal (tidak termasuk yang dibatalkan)</TD><TD className="num"><Money value={total} /></TD><TD /></TR></TFoot>
           </Table>
         )}
-        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Saldo awal yang salah dikoreksi dengan membuka transaksinya lalu menekan Balik, kemudian dibukukan ulang dengan nominal yang benar.</p>
+        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Salah isi? Buka transaksinya, tekan Batalkan, lalu catat ulang.</p>
       </Card>
     </>
   );

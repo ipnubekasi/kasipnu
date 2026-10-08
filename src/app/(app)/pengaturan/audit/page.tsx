@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: "Audit log" };
 
 const ENTITIES = [
   { value: "", label: "Semua jenis data" }, { value: "journal_entries", label: "Transaksi dan jurnal" }, { value: "attachments", label: "Bukti" },
-  { value: "organization_members", label: "Anggota dan akses" }, { value: "closed_periods", label: "Tutup periode" }, { value: "reconciliations", label: "Rekonsiliasi" },
+  { value: "organization_members", label: "Anggota dan akses" }, { value: "closed_periods", label: "Tutup periode" }, { value: "reconciliations", label: "Cocokkan Kas" },
   { value: "import_batches", label: "Impor" }, { value: "programs", label: "Program" }, { value: "budget_items", label: "RAB" }, { value: "cash_needs", label: "Kebutuhan kas" },
   { value: "accounts", label: "Akun dan rekening" }, { value: "categories", label: "Kategori" }, { value: "organizations", label: "Organisasi dan pengaturan" }, { value: "management_terms", label: "Periode kepengurusan" },
 ];
@@ -30,7 +30,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
   const { data, count } = await q.order("created_at", { ascending: false }).order("id", { ascending: false }).range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1);
   return (
     <>
-      <PageHeader title="Audit Log" description="Jejak tindakan penting: siapa melakukan apa dan kapan. Catatan ini hanya dapat ditambah oleh sistem dan tidak dapat diubah atau dihapus." />
+      <PageHeader title="Audit Log" description="Siapa melakukan apa, dan kapan." />
       <Card>
         <div className="flex flex-wrap items-center gap-2 border-b border-line px-4 py-3 sm:px-5">
           <UrlSelect name="data" label="Jenis data" value={entity} options={ENTITIES} />

@@ -75,7 +75,7 @@ export function NeedsManager({ orgId, needs, funds, canWrite, refs }: { orgId: s
       <div className="mb-4 flex justify-end">{canWrite && <Button variant="primary" onClick={() => setEdit("new")}><Plus aria-hidden />Tambah Kebutuhan Kas</Button>}</div>
       <Card>
         {needs.length === 0 ? (
-          <EmptyState icon={Wallet} title="Belum ada kebutuhan kas" description="Catat tagihan yang akan datang (kewajiban) dan rencana pengeluaran, serta pemasukan yang direncanakan, agar kecukupan kas 30 hari dapat dihitung." />
+          <EmptyState icon={Wallet} title="Belum ada kebutuhan kas" description="Catat tagihan dan rencana pemasukan atau pengeluaran 30 hari ke depan." />
         ) : (
           <Table>
             <THead><TR className="hover:bg-transparent"><TH>Kebutuhan</TH><TH>Dana</TH><TH>Jenis</TH><TH>Jatuh tempo</TH><TH className="text-right">Nominal</TH><TH>Status</TH><TH /></TR></THead>
@@ -86,7 +86,7 @@ export function NeedsManager({ orgId, needs, funds, canWrite, refs }: { orgId: s
             </TBody>
           </Table>
         )}
-        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Pembayaran kebutuhan dicatat lewat tombol Bayar. Setelah dibukukan, kebutuhan otomatis berstatus Dibayar dan terhubung ke transaksinya, sehingga tidak dikurangkan lagi dari dana tersedia.</p>
+        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Tekan Bayar untuk mencatat pembayaran.</p>
       </Card>
       <FormDialog
         open={Boolean(edit)}

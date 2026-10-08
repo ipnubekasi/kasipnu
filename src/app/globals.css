@@ -54,6 +54,13 @@
     -webkit-text-size-adjust: 100%;
     overflow-x: clip;
   }
+  /* Layar lebar: skala antarmuka sedikit lebih kecil agar layar pertama muat pas */
+  @media (min-width: 1024px) {
+    html { font-size: 14px; }
+  }
+  @media (min-width: 1700px) {
+    html { font-size: 15px; }
+  }
   html {
     background: #f4f5f6;
     -webkit-tap-highlight-color: transparent;

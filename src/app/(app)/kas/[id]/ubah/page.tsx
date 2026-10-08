@@ -25,7 +25,7 @@ export default async function EditDraftPage({ params }: { params: Promise<{ id: 
   ]);
   return (
     <>
-      <PageHeader title="Ubah Draft" description="Draft belum memengaruhi saldo. Setelah dibukukan, transaksi hanya dapat dikoreksi dengan pembalikan." back={{ href: `/kas/${id}`, label: "Kembali ke detail" }} />
+      <PageHeader title="Ubah Draft" description="Draft belum mengubah saldo." back={{ href: `/kas/${id}`, label: "Kembali ke detail" }} />
       <TransactionForm
         orgId={ctx.org.id}
         accounts={master.accounts}

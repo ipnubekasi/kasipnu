@@ -37,7 +37,7 @@ export default async function HealthPage({ searchParams }: { searchParams: Promi
     <>
       <PageHeader
         title="Kesehatan Keuangan"
-        description="Alat bantu memantau kemampuan Kas Umum membiayai operasional dan kapan perlu mencari dana tambahan. Bukan penilaian audit atau jaminan kesehatan organisasi."
+        description="Seberapa lama Kas Umum bisa membiayai kegiatan."
         actions={<RecheckButton orgId={ctx.org.id} />}
       />
       <LinkTabs active={tab} tabs={[
@@ -80,7 +80,7 @@ export default async function HealthPage({ searchParams }: { searchParams: Promi
             {g.reasons.length > 0 ? (
               <ul className="mt-2 list-disc space-y-0.5 pl-5 text-sm text-ink">{g.reasons.map((r) => <li key={r.code}>{r.text} <span className="text-muted">({r.severity === "kritis" ? "kritis" : "perlu perhatian"})</span></li>)}</ul>
             ) : (
-              <p className="mt-1 text-sm text-ink">{g.status === "data_belum_cukup" ? "Belum ada kondisi yang dapat dibuktikan bermasalah, tetapi ketahanan kas belum dapat dihitung sehingga status tidak dinyatakan Aman." : "Tidak ada kondisi yang perlu ditindaklanjuti."}</p>
+              <p className="mt-1 text-sm text-ink">{g.status === "data_belum_cukup" ? "Data belum cukup untuk menyatakan aman." : "Tidak ada kondisi yang perlu ditindaklanjuti."}</p>
             )}
             <p className="mt-3 text-sm text-ink">{g.recommendation}</p>
             {g.actions.length > 0 && <ul className="mt-2 flex flex-wrap gap-2">{g.actions.map((a) => <li key={a} className="rounded-full border border-line bg-surface px-2.5 py-1 text-[12px] text-ink">{a}</li>)}</ul>}
@@ -97,7 +97,7 @@ export default async function HealthPage({ searchParams }: { searchParams: Promi
                   <div className="flex justify-between border-t border-line pt-1.5 font-semibold"><dt>Dana umum tersedia</dt><dd><Money value={g.available} tone="auto" /></dd></div>
                   <div className="flex justify-between pt-2 text-muted"><dt>Dana terikat program (tidak dihitung)</dt><dd><Money value={g.restricted_balance} tone="muted" /></dd></div>
                 </dl>
-                <Formula>Dana umum tersedia = saldo Kas Umum - kewajiban yang belum dibayar. Pengeluaran yang sudah dibukukan tidak dikurangkan lagi.</Formula>
+                <Formula>Dana tersedia = saldo Kas Umum dikurangi tagihan yang belum dibayar.</Formula>
                 <p className="text-[13px]"><Link href="/kas" className="text-accent hover:underline">Lihat transaksi Kas Umum</Link> · <Link href="/kesehatan?tab=kebutuhan" className="text-accent hover:underline">Lihat kewajiban</Link></p>
               </CardContent>
             </Card>
@@ -107,7 +107,7 @@ export default async function HealthPage({ searchParams }: { searchParams: Promi
               <CardContent className="space-y-3 text-sm">
                 {g.avg_basis === "tidak_ada" ? (
                   <Alert tone="info" title="Data belum cukup">
-                    {g.history_sufficient ? "Tidak ada pengeluaran operasional rutin pada tiga bulan lengkap terakhir, sehingga ketahanan kas tidak dihitung (bukan berarti tak terbatas)." : `Riwayat transaksi baru dimulai ${g.first_entry_date ? formatDate(g.first_entry_date) : "belum ada"}; diperlukan tiga bulan lengkap.`} Isi anggaran operasional bulanan di <Link href="/pengaturan/kesehatan" className="font-medium text-accent underline">Pengaturan</Link> untuk perkiraan berdasarkan anggaran.
+                    {g.history_sufficient ? "Belum ada pengeluaran rutin selama tiga bulan terakhir." : `Riwayat transaksi baru dimulai ${g.first_entry_date ? formatDate(g.first_entry_date) : "belum ada"}; diperlukan tiga bulan lengkap.`} Isi anggaran operasional bulanan di <Link href="/pengaturan/kesehatan" className="font-medium text-accent underline">Pengaturan</Link> untuk perkiraan berdasarkan anggaran.
                   </Alert>
                 ) : (
                   <>
@@ -124,7 +124,7 @@ export default async function HealthPage({ searchParams }: { searchParams: Promi
                     {g.avg_basis === "anggaran" && <p className="text-[13px] text-warn">Berdasarkan anggaran operasional, karena riwayat tiga bulan lengkap belum tersedia.</p>}
                   </>
                 )}
-                <p className="text-[12px] text-muted">Dihitung dari pengeluaran Kas Umum berkategori operasional rutin, di luar pengeluaran besar yang ditandai sekali terjadi. Pengeluaran program tidak termasuk.</p>
+                <p className="text-[12px] text-muted">Dihitung dari pengeluaran rutin Kas Umum. Pengeluaran program tidak termasuk.</p>
               </CardContent>
             </Card>
 

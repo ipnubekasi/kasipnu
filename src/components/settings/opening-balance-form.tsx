@@ -41,7 +41,7 @@ export function OpeningBalanceForm({ orgId, accounts, funds, defaultDate }: { or
         p_idempotency_key: key.current,
       }),
       {
-        success: (d: { ref_no: string }) => `Saldo awal ${formatRupiah(amount)} dibukukan (${d.ref_no})`,
+        success: (d: { ref_no: string }) => `Saldo awal ${formatRupiah(amount)} tercatat (${d.ref_no})`,
         toastError: false,
         onSuccess: () => { setAmount(null); key.current = uuid(); },
       },
@@ -70,7 +70,7 @@ export function OpeningBalanceForm({ orgId, accounts, funds, defaultDate }: { or
           <MoneyInput {...fieldAria("ob-amount", errors.amount)} value={amount} onChange={setAmount} />
         </Field>
       </div>
-      <Button type="submit" variant="primary" loading={pending}>Bukukan Saldo Awal</Button>
+      <Button type="submit" variant="primary" loading={pending}>Simpan Saldo Awal</Button>
     </form>
   );
 }

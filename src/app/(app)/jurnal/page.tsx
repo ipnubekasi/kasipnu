@@ -45,7 +45,7 @@ export default async function JournalPage({ searchParams }: { searchParams: Prom
     <>
       <PageHeader
         title="Jurnal dan Buku Besar"
-        description="Pencatatan berpasangan: setiap jurnal seimbang antara debit dan kredit. Jurnal dibuat otomatis dari transaksi; jurnal penyesuaian dicatat manual oleh pengguna berwenang."
+        description="Catatan debit dan kredit dari semua transaksi."
         actions={
           <>
             {report && <ExportButtons report={report} />}

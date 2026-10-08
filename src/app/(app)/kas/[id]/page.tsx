@@ -79,26 +79,26 @@ export default async function EntryDetailPage({ params, searchParams }: { params
 
       <div className="mb-4 space-y-3">
         {entry.status === "draft" && (
-          <Alert tone="warn" title="Draft belum memengaruhi saldo atau laporan">
-            Periksa isiannya, lalu tekan Bukukan. Nomor referensi diberikan saat dibukukan.
+          <Alert tone="warn" title="Draft belum mengubah saldo">
+            Periksa isiannya, lalu tekan Catat.
           </Alert>
         )}
         {entry.status === "dibalik" && (
-          <Alert tone="info" title={`Transaksi ini sudah dibalik oleh ${who(entry.reversed_by)} pada ${formatDateTime(entry.reversed_at)}`}>
+          <Alert tone="info" title={`Dibatalkan oleh ${who(entry.reversed_by)}, ${formatDateTime(entry.reversed_at)}`}>
             Alasan: {entry.reversal_reason}.{" "}
-            {rel(entry.reversed_by_id) && <Link className="font-medium text-accent underline underline-offset-2" href={`/kas/${entry.reversed_by_id}`}>Lihat jurnal pembalikan {rel(entry.reversed_by_id)!.ref_no}</Link>}
+            {rel(entry.reversed_by_id) && <Link className="font-medium text-accent underline underline-offset-2" href={`/kas/${entry.reversed_by_id}`}>Lihat jurnal pembatalan {rel(entry.reversed_by_id)!.ref_no}</Link>}
             {(replacedByRes.data ?? []).map((r) => (
               <span key={r.id}>{" · "}<Link className="font-medium text-accent underline underline-offset-2" href={`/kas/${r.id}`}>Transaksi pengganti {r.ref_no ?? "(draft)"}</Link></span>
             ))}
           </Alert>
         )}
         {entry.kind === "pembalikan" && rel(entry.reverses_id) && (
-          <Alert tone="info" title="Jurnal pembalikan">
-            Jurnal ini membatalkan <Link className="font-medium text-accent underline underline-offset-2" href={`/kas/${entry.reverses_id}`}>{rel(entry.reverses_id)!.ref_no}</Link>. Keduanya tetap tersimpan sebagai riwayat.
+          <Alert tone="info" title="Pembatalan">
+            Jurnal ini membatalkan <Link className="font-medium text-accent underline underline-offset-2" href={`/kas/${entry.reverses_id}`}>{rel(entry.reverses_id)!.ref_no}</Link>. Keduanya tersimpan sebagai riwayat.
           </Alert>
         )}
         {entry.replaces_id && rel(entry.replaces_id) && entry.status !== "draft" && (
-          <Alert tone="info">Transaksi ini menggantikan <Link className="font-medium text-accent underline underline-offset-2" href={`/kas/${entry.replaces_id}`}>{rel(entry.replaces_id)!.ref_no}</Link> yang sudah dibalik.</Alert>
+          <Alert tone="info">Transaksi ini menggantikan <Link className="font-medium text-accent underline underline-offset-2" href={`/kas/${entry.replaces_id}`}>{rel(entry.replaces_id)!.ref_no}</Link> yang sudah dibatalkan.</Alert>
         )}
       </div>
 
@@ -135,10 +135,10 @@ export default async function EntryDetailPage({ params, searchParams }: { params
           <Card>
             <CardHeader>
               <CardTitle>Jurnal</CardTitle>
-              {lines.length > 0 && <span className="text-[13px] text-muted">Dibuat otomatis saat dibukukan</span>}
+              {lines.length > 0 && <span className="text-[13px] text-muted">Otomatis</span>}
             </CardHeader>
             {lines.length === 0 ? (
-              <CardContent className="text-sm text-muted">Jurnal debit dan kredit dibuat saat transaksi ini dibukukan. Draft tidak memiliki jurnal.</CardContent>
+              <CardContent className="text-sm text-muted">Jurnal muncul setelah transaksi tercatat.</CardContent>
             ) : (
               <Table>
                 <THead>
@@ -192,8 +192,8 @@ export default async function EntryDetailPage({ params, searchParams }: { params
             <CardContent className="space-y-3 text-sm">
               <ol className="space-y-2.5">
                 <li><span className="text-muted">Dibuat oleh</span> {who(entry.created_by)}<span className="block text-[12px] text-muted">{formatDateTime(entry.created_at)}</span></li>
-                {entry.posted_at && <li><span className="text-muted">Dibukukan oleh</span> {who(entry.posted_by)}<span className="block text-[12px] text-muted">{formatDateTime(entry.posted_at)}</span></li>}
-                {entry.reversed_at && <li><span className="text-muted">Dibalik oleh</span> {who(entry.reversed_by)}<span className="block text-[12px] text-muted">{formatDateTime(entry.reversed_at)}</span></li>}
+                {entry.posted_at && <li><span className="text-muted">Tercatat oleh</span> {who(entry.posted_by)}<span className="block text-[12px] text-muted">{formatDateTime(entry.posted_at)}</span></li>}
+                {entry.reversed_at && <li><span className="text-muted">Dibatalkan oleh</span> {who(entry.reversed_by)}<span className="block text-[12px] text-muted">{formatDateTime(entry.reversed_at)}</span></li>}
               </ol>
               {(logsRes.data ?? []).length > 0 && (
                 <details className="border-t border-line pt-3">

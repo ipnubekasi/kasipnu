@@ -12,7 +12,7 @@ export default async function MembersPage() {
   const inviteEnabled = Boolean(process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY);
   return (
     <>
-      <PageHeader title="Anggota dan Hak Akses" description="Pengurus yang dapat membuka Kas IPNU. Tidak ada pendaftaran publik; akun dibuat atau diundang oleh Admin." />
+      <PageHeader title="Anggota dan Hak Akses" description="Pengurus yang bisa membuka aplikasi ini." />
       <MembersManager orgId={ctx.org.id} members={(data ?? []) as Member[]} isAdmin={ctx.isAdmin} selfUserId={ctx.userId} inviteEnabled={inviteEnabled} />
     </>
   );

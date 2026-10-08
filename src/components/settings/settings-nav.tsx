@@ -11,7 +11,7 @@ export const SETTINGS_NAV = [
     { href: "/pengaturan/kepengurusan", label: "Periode kepengurusan" },
     { href: "/pengaturan/anggota", label: "Anggota dan hak akses" },
   ] },
-  { group: "Pembukuan", items: [
+  { group: "Pencatatan", items: [
     { href: "/pengaturan/rekening", label: "Rekening dan kas" },
     { href: "/pengaturan/saldo-awal", label: "Saldo awal" },
     { href: "/pengaturan/kategori", label: "Kategori dan pemetaan akun" },

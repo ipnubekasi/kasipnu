@@ -16,7 +16,7 @@ export default async function CategoriesPage() {
   const used = [...((a.data ?? []) as { category_id: string }[]).map((r) => r.category_id), ...(b.data ?? []).map((r) => r.category_id as string)];
   return (
     <>
-      <PageHeader title="Kategori dan Pemetaan Akun" description="Kategori dipakai saat mencatat transaksi. Setiap kategori dipetakan ke satu akun sehingga jurnal dibuat otomatis." />
+      <PageHeader title="Kategori dan Pemetaan Akun" description="Pilihan kategori saat mencatat transaksi." />
       <CategoriesManager orgId={ctx.org.id} categories={master.categories} accounts={master.accounts} canWrite={ctx.canWrite || ctx.isAdmin} used={used} />
     </>
   );

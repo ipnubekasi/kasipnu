@@ -56,18 +56,18 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
     const hasBank = master.cashAccounts.length > 1;
     return (
       <>
-        <PageHeader title="Ringkasan Keuangan" description={`Selamat datang di Kas IPNU, ${ctx.member.full_name}.`} />
+        <PageHeader title="Ringkasan" />
         <Card>
           <EmptyState
             icon={Wallet}
-            title="Belum ada transaksi yang dibukukan"
-            description="Ringkasan saldo, arus kas, dan kesehatan keuangan akan tampil setelah transaksi pertama dibukukan. Ikuti tiga langkah berikut untuk memulai."
+            title="Belum ada transaksi"
+            description="Ikuti tiga langkah ini untuk memulai."
           />
           <ol className="mx-auto grid grid-cols-1 max-w-3xl gap-3 px-4 pb-8 sm:grid-cols-3 sm:px-6">
             {[
-              { n: 1, icon: Landmark, title: "Daftarkan rekening", text: hasBank ? "Rekening sudah tersedia. Tambahkan lagi bila perlu." : "Kas Tunai sudah tersedia. Tambahkan rekening bank atau dompet digital.", href: "/pengaturan/rekening", cta: "Kelola rekening" },
-              { n: 2, icon: Scale, title: "Isi saldo awal", text: "Masukkan uang yang sudah dimiliki organisasi saat mulai memakai aplikasi.", href: "/pengaturan/saldo-awal", cta: "Isi saldo awal" },
-              { n: 3, icon: Plus, title: "Catat transaksi", text: "Catat pemasukan dan pengeluaran, lengkap dengan bukti.", href: "/kas/baru", cta: "Catat Transaksi" },
+              { n: 1, icon: Landmark, title: "Daftarkan rekening", text: hasBank ? "Rekening sudah ada." : "Tambahkan rekening bank atau dompet digital.", href: "/pengaturan/rekening", cta: "Kelola rekening" },
+              { n: 2, icon: Scale, title: "Isi saldo awal", text: "Uang yang sudah ada saat mulai.", href: "/pengaturan/saldo-awal", cta: "Isi saldo awal" },
+              { n: 3, icon: Plus, title: "Catat transaksi", text: "Catat pemasukan dan pengeluaran.", href: "/kas/baru", cta: "Catat Transaksi" },
             ].map((s) => (
               <li key={s.n} className="flex flex-col rounded-control border border-line p-4">
                 <span className="mb-2 inline-flex size-7 items-center justify-center rounded-full bg-accent-soft text-[13px] font-semibold text-primary">{s.n}</span>
@@ -79,13 +79,13 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
           </ol>
           {tasks.drafts > 0 && (
             <p className="border-t border-line px-5 py-3 text-sm text-muted">
-              Ada <strong className="text-ink">{tasks.drafts} draft</strong> yang belum dibukukan. <Link href="/kas?status=draft" className="font-medium text-accent underline underline-offset-2">Tinjau draft</Link>
+              <strong className="text-ink">{tasks.drafts} draft</strong> belum dicatat. <Link href="/kas?status=draft" className="font-medium text-accent underline underline-offset-2">Tinjau draft</Link>
             </p>
           )}
           {ctx.isAdmin && ctx.canWrite && (
             <p className="flex flex-wrap items-center gap-2 border-t border-line px-5 py-3 text-[13px] text-muted">
               <FlaskConical className="size-4" aria-hidden />
-              Ingin mencoba dulu? Anda dapat memuat data contoh dari <Link href="/pengaturan/backup" className="font-medium text-accent underline underline-offset-2">Pengaturan, Backup dan Serah Terima</Link>. Data contoh tidak dimuat tanpa tindakan Anda.
+              Ingin coba dulu? Muat <Link href="/pengaturan/backup" className="font-medium text-accent underline underline-offset-2">data contoh</Link>.
             </p>
           )}
         </Card>
@@ -149,13 +149,13 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
         <Stat index={0} icon={Wallet} label="Saldo akhir" sub={`Per ${formatDate(period.to)}`} href={`/kas${qs({ ...base, periode: "semua", dari: null, sampai: null })}`}>
           <Money value={summary.closing} tone="auto" />
         </Stat>
-        <Stat index={1} icon={ArrowDownLeft} label="Pemasukan eksternal" sub="Tanpa transfer dan saldo awal" href={`/kas${qs({ ...base, jenis: "pemasukan" })}`}>
+        <Stat index={1} icon={ArrowDownLeft} label="Pemasukan" sub="Uang masuk" href={`/kas${qs({ ...base, jenis: "pemasukan" })}`}>
           <Money value={summary.income} />
         </Stat>
-        <Stat index={2} icon={ArrowUpRight} label="Pengeluaran eksternal" sub="Tanpa transfer internal" href={`/kas${qs({ ...base, jenis: "pengeluaran" })}`}>
+        <Stat index={2} icon={ArrowUpRight} label="Pengeluaran" sub="Uang keluar" href={`/kas${qs({ ...base, jenis: "pengeluaran" })}`}>
           <Money value={summary.expense} />
         </Stat>
-        <Stat index={3} icon={Scale} label="Arus kas bersih" sub={net < 0 ? "Defisit pada periode ini" : net > 0 ? "Surplus pada periode ini" : "Seimbang"} href={`/kas${qs(base)}`}>
+        <Stat index={3} icon={Scale} label="Selisih" sub={net < 0 ? "Lebih banyak keluar" : net > 0 ? "Lebih banyak masuk" : "Seimbang"} href={`/kas${qs(base)}`}>
           <Money value={net} tone={net < 0 ? "out" : undefined} sign />
         </Stat>
       </div>
@@ -174,12 +174,12 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
         <Card>
           <CardHeader><CardTitle>Perlu diselesaikan</CardTitle>{taskCount > 0 && <span className="tnum rounded-full bg-warn-soft px-2 text-[12px] font-medium text-warn">{taskCount}</span>}</CardHeader>
           {taskCount === 0 ? (
-            <CardContent className="flex items-center gap-2 text-sm text-muted"><CircleCheck className="size-4 text-accent" aria-hidden />Tidak ada pekerjaan tertunda. Semua draft sudah dibukukan dan bukti sudah lengkap.</CardContent>
+            <CardContent className="flex items-center gap-2 text-sm text-muted"><CircleCheck className="size-4 text-accent" aria-hidden />Semua beres.</CardContent>
           ) : (
             <ul className="divide-y divide-line">
               {tasks.drafts > 0 && (
                 <li><Link href="/kas?lingkup=gabungan&status=draft" className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-subtle/60 sm:px-5">
-                  <PencilLine className="size-4 shrink-0 text-warn" aria-hidden /><span className="flex-1"><strong className="tnum font-medium">{tasks.drafts}</strong> transaksi masih draft</span><span className="text-[13px] text-muted">Tinjau dan bukukan</span><ArrowRight className="size-4 text-faint" aria-hidden />
+                  <PencilLine className="size-4 shrink-0 text-warn" aria-hidden /><span className="flex-1"><strong className="tnum font-medium">{tasks.drafts}</strong> transaksi masih draft</span><span className="text-[13px] text-muted">Tinjau dan catat</span><ArrowRight className="size-4 text-faint" aria-hidden />
                 </Link></li>
               )}
               {tasks.missing_evidence > 0 && (
@@ -189,12 +189,12 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
               )}
               {tasks.open_reconciliations > 0 && (
                 <li><Link href="/kas/rekonsiliasi" className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-subtle/60 sm:px-5">
-                  <Scale className="size-4 shrink-0 text-warn" aria-hidden /><span className="flex-1"><strong className="tnum font-medium">{tasks.open_reconciliations}</strong> rekonsiliasi belum selesai</span><span className="text-[13px] text-muted">Lanjutkan</span><ArrowRight className="size-4 text-faint" aria-hidden />
+                  <Scale className="size-4 shrink-0 text-warn" aria-hidden /><span className="flex-1"><strong className="tnum font-medium">{tasks.open_reconciliations}</strong> pencocokan kas belum selesai</span><span className="text-[13px] text-muted">Lanjutkan</span><ArrowRight className="size-4 text-faint" aria-hidden />
                 </Link></li>
               )}
               {tasks.accounts_to_reconcile.map((a) => (
                 <li key={a.account_id}><Link href="/kas/rekonsiliasi" className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-subtle/60 sm:px-5">
-                  <Scale className="size-4 shrink-0 text-muted" aria-hidden /><span className="flex-1">{a.name} belum direkonsiliasi {a.last_date ? `sejak ${formatDate(a.last_date)}` : "sama sekali"}</span><ArrowRight className="size-4 text-faint" aria-hidden />
+                  <Scale className="size-4 shrink-0 text-muted" aria-hidden /><span className="flex-1">{a.name} belum dicocokkan {a.last_date ? `sejak ${formatDate(a.last_date)}` : "sama sekali"}</span><ArrowRight className="size-4 text-faint" aria-hidden />
                 </Link></li>
               ))}
             </ul>
@@ -206,7 +206,7 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
         <Card>
           <CardHeader><CardTitle>Transaksi terbaru</CardTitle><Button asChild size="sm" variant="ghost"><Link href={`/kas${qs({ lingkup: sp.lingkup })}`}>Lihat semua<ArrowRight aria-hidden /></Link></Button></CardHeader>
           {latest.length === 0 ? (
-            <CardContent className="text-sm text-muted">Belum ada transaksi dibukukan pada {scope.label}.</CardContent>
+            <CardContent className="text-sm text-muted">Belum ada transaksi.</CardContent>
           ) : (
             <ul className="divide-y divide-line">
               {latest.map((r) => (
@@ -253,7 +253,7 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
               </TBody>
             </Table>
           )}
-          {activePrograms.length > 0 && <p className="border-t border-line px-4 py-2.5 text-[12px] text-muted sm:px-5">Anggaran adalah rencana. Sisa dana adalah uang yang benar-benar tersedia pada dana program.</p>}
+          {activePrograms.length > 0 && <p className="border-t border-line px-4 py-2.5 text-[12px] text-muted sm:px-5">Anggaran adalah rencana. Sisa dana adalah uang yang tersedia.</p>}
         </Card>
       </div>
       </div>

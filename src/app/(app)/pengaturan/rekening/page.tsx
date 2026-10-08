@@ -20,7 +20,7 @@ export default async function CashAccountsPage() {
   for (const r of recon.data ?? []) last[r.account_id] ??= r.statement_date;
   return (
     <>
-      <PageHeader title="Rekening dan Kas" description="Tempat uang organisasi disimpan: kas tunai, rekening bank, dan dompet digital." />
+      <PageHeader title="Rekening dan Kas" description="Kas tunai, rekening bank, dan dompet digital." />
       <AccountsManager orgId={ctx.org.id} accounts={master.accounts} mode="rekening" canWrite={ctx.canWrite || ctx.isAdmin} balances={balances} lastReconciled={last} used={positions.map((p) => p.account_id)} />
     </>
   );

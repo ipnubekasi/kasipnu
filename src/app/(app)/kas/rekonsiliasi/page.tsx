@@ -10,7 +10,7 @@ import { StartReconciliation } from "@/components/reconcile/start-form";
 import { getAppContext, getMaster } from "@/lib/context";
 import { formatDate } from "@/lib/format";
 
-export const metadata: Metadata = { title: "Rekonsiliasi" };
+export const metadata: Metadata = { title: "Cocokkan Kas" };
 
 export default async function ReconciliationsPage() {
   const ctx = await getAppContext();
@@ -19,16 +19,16 @@ export default async function ReconciliationsPage() {
   const accName = (id: string) => master.accounts.find((a) => a.id === id)?.name ?? "";
   return (
     <>
-      <PageHeader title="Rekonsiliasi" description="Cocokkan Saldo Buku dengan hasil hitung kas tunai atau rekening koran. Selisih tidak pernah disesuaikan otomatis; koreksi dicatat sebagai transaksi." back={{ href: "/kas", label: "Kas Umum" }} />
+      <PageHeader title="Cocokkan Kas" description="Cocokkan saldo aplikasi dengan uang atau rekening koran yang sebenarnya." back={{ href: "/kas", label: "Kas Umum" }} />
       {ctx.canWrite && (
         <Card className="mb-5">
-          <CardHeader><CardTitle>Mulai rekonsiliasi baru</CardTitle></CardHeader>
+          <CardHeader><CardTitle>Mulai pencocokan kas baru</CardTitle></CardHeader>
           <CardContent><StartReconciliation orgId={ctx.org.id} accounts={master.cashAccounts.filter((a) => a.is_active)} /></CardContent>
         </Card>
       )}
       <Card>
         {!data?.length ? (
-          <EmptyState title="Belum ada rekonsiliasi" description="Lakukan rekonsiliasi minimal sebulan sekali untuk setiap rekening, sebelum menutup periode." />
+          <EmptyState title="Belum ada pencocokan kas" description="Lakukan pencocokan kas minimal sebulan sekali untuk setiap rekening, sebelum menutup periode." />
         ) : (
           <Table>
             <THead><TR className="hover:bg-transparent"><TH>Rekening</TH><TH>Per tanggal</TH><TH className="text-right">Saldo pembanding</TH><TH className="text-right">Saldo buku</TH><TH className="text-right">Selisih</TH><TH>Status</TH><TH /></TR></THead>

@@ -12,7 +12,7 @@ export default async function HealthSettingsPage() {
   const { data: sched } = await ctx.supabase.rpc("ensure_daily_check", { p_org: ctx.org.id });
   return (
     <>
-      <PageHeader title="Kesehatan dan Notifikasi" description="Ambang peringatan, batas waktu bukti, dan pemeriksaan berkala." />
+      <PageHeader title="Kesehatan dan Notifikasi" description="Batas peringatan dan pengecekan otomatis." />
       <div className="space-y-5">
         {sched?.scheduler_configured ? (
           <Alert tone="ok" title="Pemeriksaan berkala harian aktif">
@@ -20,7 +20,7 @@ export default async function HealthSettingsPage() {
           </Alert>
         ) : (
           <Alert tone="warn" title="Pemeriksaan berkala terjadwal belum dikonfigurasi">
-            Saat ini pemeriksaan harian berjalan ketika ada pengurus yang membuka aplikasi (paling banyak sekali per hari), dan setiap kali ada pembukuan, pembalikan, atau perubahan kebutuhan kas dan anggaran. Agar tetap berjalan walaupun aplikasi tidak dibuka, aktifkan pg_cron di Supabase atau Vercel Cron sesuai panduan deployment.
+            Saat ini pemeriksaan harian berjalan ketika ada pengurus yang membuka aplikasi (paling banyak sekali per hari), dan setiap kali ada pencatatan, pembatalan, atau perubahan kebutuhan kas dan anggaran. Agar tetap berjalan walaupun aplikasi tidak dibuka, aktifkan pg_cron di Supabase atau Vercel Cron sesuai panduan deployment.
             {sched?.last_check_at ? ` Pemeriksaan terakhir: ${formatDateTime(sched.last_check_at)}.` : ""}
           </Alert>
         )}

@@ -55,7 +55,7 @@ export function TransactionTable({
   const allSelected = drafts.length > 0 && drafts.every((d) => selected.has(d.id));
   const detail = (id: string) => `/kas/${id}?kembali=${encodeURIComponent(backHref)}`;
 
-  // Pilihan dikosongkan saat data berganti (filter, halaman, setelah pembukuan).
+  // Pilihan dikosongkan saat data berganti (filter, halaman, setelah pencatatan).
   const [prevRows, setPrevRows] = React.useState(rows);
   if (rows !== prevRows) {
     setPrevRows(rows);
@@ -85,8 +85,8 @@ export function TransactionTable({
           const ok = res.filter((r) => r.ok).length;
           const bad = res.filter((r) => !r.ok);
           setFailures(bad.map((b) => ({ id: b.id, error: b.error ?? "Tidak dapat dibukukan" })));
-          if (ok) toast.success(`${ok} transaksi dibukukan`);
-          if (bad.length) toast.error(`${bad.length} draft tidak dapat dibukukan`, { description: "Lihat rincian di atas tabel, perbaiki, lalu coba lagi." });
+          if (ok) toast.success(`${ok} transaksi tercatat`);
+          if (bad.length) toast.error(`${bad.length} draft tidak dapat tercatat`, { description: "Lihat rincian di atas tabel, perbaiki, lalu coba lagi." });
           setSelected(new Set());
         },
       },
@@ -100,7 +100,7 @@ export function TransactionTable({
   return (
     <>
       {failures.length > 0 && (
-        <Alert tone="danger" title={`${failures.length} draft tidak dibukukan`} className="m-4">
+        <Alert tone="danger" title={`${failures.length} draft tidak tercatat`} className="m-4">
           <ul className="mt-1 list-disc space-y-0.5 pl-4">
             {failures.map((f) => {
               const r = rows.find((x) => x.id === f.id);
@@ -114,7 +114,7 @@ export function TransactionTable({
           <span><strong className="tnum">{selected.size}</strong> draft dipilih</span>
           <div className="flex gap-2">
             <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())}>Batal pilih</Button>
-            <Button size="sm" variant="primary" loading={pending} onClick={postSelected}><CheckCheck aria-hidden />Bukukan terpilih</Button>
+            <Button size="sm" variant="primary" loading={pending} onClick={postSelected}><CheckCheck aria-hidden />Catat terpilih</Button>
           </div>
         </div>
       )}
@@ -195,7 +195,7 @@ export function TransactionTable({
           <TFoot>
             <TR className="hover:bg-transparent">
               <TD colSpan={(canWrite && drafts.length > 0 ? 1 : 0) + 5} className="text-muted">
-                Jumlah {pageHasAll ? "" : "seluruh hasil filter "}(hanya yang dibukukan){scopeNote ? ` · ${scopeNote}` : ""}
+                Jumlah{pageHasAll ? "" : " semua hasil"}{scopeNote ? ` · ${scopeNote}` : ""}
               </TD>
               <TD className="num"><Money value={sumIn} /></TD>
               <TD className="num"><Money value={sumOut} /></TD>
@@ -250,7 +250,7 @@ export function TransactionTable({
           );
         })}
         <li className="flex items-center justify-between gap-3 bg-subtle/60 px-4 py-2.5 text-[13px]">
-          <span className="text-muted">Jumlah dibukukan</span>
+          <span className="text-muted">Jumlah tercatat</span>
           <span className="space-x-3"><Money value={sumIn} tone="in" sign /><Money value={-sumOut} tone="out" /></span>
         </li>
       </ul>

@@ -33,7 +33,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
     const groups = Array.from(new Set(REPORTS.map((r) => r.group)));
     return (
       <>
-        <PageHeader title="Laporan" description="Pilih laporan, atur periode dan lingkup, lalu ekspor ke PDF, XLSX, atau CSV. Angka ekspor selalu sama dengan angka di layar." />
+        <PageHeader title="Laporan" description="Pilih laporan, lalu unduh PDF, XLSX, atau CSV." />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {groups.map((g) => (
             <Card key={g} className="p-4 sm:p-5">
@@ -52,7 +52,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
             </Card>
           ))}
         </div>
-        <p className="mt-4 text-[13px] text-muted">Laporan disusun dari jurnal yang sudah dibukukan. Aplikasi ini tidak mengklaim kepatuhan pada standar akuntansi tertentu; mintalah telaah profesional bila laporan dipakai untuk keperluan resmi di luar organisasi.</p>
+        <p className="mt-4 text-[13px] text-muted">Laporan dihitung dari transaksi yang sudah tercatat.</p>
       </>
     );
   }

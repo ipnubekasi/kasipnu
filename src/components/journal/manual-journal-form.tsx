@@ -67,7 +67,7 @@ export function ManualJournalForm({ orgId, accounts, funds, entry }: { orgId: st
     if (res.error) return setFormError(friendlyError(res.error));
     setDirty(false);
     const id = action === "post" ? res.data.id : res.data;
-    toast.success(action === "post" ? `${res.data.ref_no} dibukukan` : "Draft jurnal tersimpan");
+    toast.success(action === "post" ? `${res.data.ref_no} tercatat` : "Draft jurnal tersimpan");
     router.push(`/kas/${id}`);
     router.refresh();
   }
@@ -76,7 +76,7 @@ export function ManualJournalForm({ orgId, accounts, funds, entry }: { orgId: st
     <div className="space-y-5">
       {formError && <Alert tone="danger" title={formError.message}>{formError.hint}</Alert>}
       <Alert tone="info">
-        Gunakan jurnal penyesuaian hanya untuk koreksi yang tidak dapat dicatat lewat formulir transaksi, misalnya pengakuan utang. Untuk selisih kas hasil rekonsiliasi, catat sebagai pemasukan atau pengeluaran kategori Selisih kas agar tetap tercermin di laporan arus kas.
+        Gunakan jurnal penyesuaian hanya untuk koreksi yang tidak dapat dicatat lewat formulir transaksi, misalnya pengakuan utang. Untuk selisih kas hasil pencocokan kas, catat sebagai pemasukan atau pengeluaran kategori Selisih kas agar tetap tercermin di laporan arus kas.
       </Alert>
       <Card>
         <CardContent className="space-y-4">
@@ -132,7 +132,7 @@ export function ManualJournalForm({ orgId, accounts, funds, entry }: { orgId: st
       <div className="flex flex-wrap justify-end gap-2">
         <Button asChild variant="ghost"><Link href="/jurnal">Batal</Link></Button>
         <Button loading={pending === "draft"} disabled={pending === "post"} onClick={() => submit("draft")}>Simpan sebagai Draft</Button>
-        <Button variant="primary" loading={pending === "post"} disabled={pending === "draft"} onClick={() => submit("post")}>Simpan dan Bukukan</Button>
+        <Button variant="primary" loading={pending === "post"} disabled={pending === "draft"} onClick={() => submit("post")}>Simpan</Button>
       </div>
     </div>
   );

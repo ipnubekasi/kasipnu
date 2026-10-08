@@ -18,7 +18,7 @@ export default async function AdjustmentPage({ searchParams }: { searchParams: P
   const funds = master.funds.filter((f) => f.is_active && (f.kind === "umum" || master.programs.some((p) => p.fund_id === f.id && p.status !== "diarsipkan")));
   return (
     <>
-      <PageHeader title={entry ? "Ubah Draft Jurnal Penyesuaian" : "Jurnal Penyesuaian"} description="Jurnal manual untuk pengguna berwenang. Wajib seimbang antara debit dan kredit pada setiap dana; diperiksa juga oleh database." back={{ href: "/jurnal", label: "Jurnal dan Buku Besar" }} />
+      <PageHeader title={entry ? "Ubah Draft Jurnal Penyesuaian" : "Jurnal Penyesuaian"} description="Koreksi manual. Debit dan kredit harus sama." back={{ href: "/jurnal", label: "Jurnal dan Buku Besar" }} />
       <ManualJournalForm orgId={ctx.org.id} accounts={master.accounts} funds={funds} entry={entry} />
     </>
   );

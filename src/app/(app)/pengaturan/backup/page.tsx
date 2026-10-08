@@ -20,7 +20,7 @@ export default async function BackupPage() {
   const isDemo = Boolean(ctx.org.settings?.is_demo);
   return (
     <>
-      <PageHeader title="Backup dan Serah Terima" description="Menjaga arsip lintas periode kepengurusan dan memindahkan tanggung jawab kepada bendahara berikutnya tanpa kehilangan riwayat." />
+      <PageHeader title="Backup dan Serah Terima" description="Simpan cadangan dan serahkan ke bendahara berikutnya." />
       <div className="space-y-5">
         <Card>
           <CardHeader><CardTitle>Paket serah terima</CardTitle></CardHeader>

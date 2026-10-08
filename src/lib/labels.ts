@@ -6,13 +6,13 @@ export const KIND_LABEL: Record<EntryKind, string> = {
   transfer: "Transfer",
   saldo_awal: "Saldo awal",
   penyesuaian: "Penyesuaian",
-  pembalikan: "Pembalikan",
+  pembalikan: "Pembatalan",
 };
 
 export const STATUS_LABEL: Record<EntryStatus, string> = {
   draft: "Draft",
-  dibukukan: "Dibukukan",
-  dibalik: "Dibalik",
+  dibukukan: "Tercatat",
+  dibalik: "Dibatalkan",
 };
 
 export const EVIDENCE_LABEL: Record<EvidenceStatus, string> = {

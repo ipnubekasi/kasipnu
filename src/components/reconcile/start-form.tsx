@@ -46,7 +46,7 @@ export function StartReconciliation({ orgId, accounts }: { orgId: string; accoun
         <Field label="Saldo hasil hitung atau rekening koran" htmlFor="rc-bal" required error={errs.balance}><MoneyInput {...fieldAria("rc-bal", errs.balance)} value={balance} onChange={setBalance} allowNegative /></Field>
         <Field label="Catatan" htmlFor="rc-notes"><Input id="rc-notes" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Misalnya: rekening koran September" /></Field>
       </div>
-      <Button type="submit" variant="primary" loading={pending}>Mulai Rekonsiliasi</Button>
+      <Button type="submit" variant="primary" loading={pending}>Mulai Cocokkan</Button>
     </form>
   );
 }

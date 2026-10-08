@@ -9,7 +9,7 @@ export default async function RefPage() {
   const ctx = await getAppContext();
   return (
     <>
-      <PageHeader title="Nomor Referensi" description="Awalan dan jumlah digit nomor transaksi." />
+      <PageHeader title="Nomor Referensi" description="Format nomor transaksi." />
       <RefSettingsForm orgId={ctx.org.id} settings={ctx.org.settings ?? {}} isAdmin={ctx.isAdmin} />
     </>
   );

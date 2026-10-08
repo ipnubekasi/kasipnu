@@ -42,10 +42,10 @@ export default async function ArchivePage({ searchParams }: { searchParams: Prom
 
   return (
     <>
-      <PageHeader title="Arsip Bukti" description="Semua bukti transaksi dan dokumen arsip di penyimpanan privat. Berkas hanya dapat dibuka oleh pengurus yang memiliki akses, melalui tautan sementara." />
+      <PageHeader title="Arsip Bukti" description="Bukti dan dokumen yang tersimpan." />
       {tasks.missing_evidence > 0 && (
         <p className="mb-4 text-sm text-muted">
-          <strong className="text-ink">{tasks.missing_evidence} transaksi</strong> yang sudah dibukukan belum memiliki bukti.{" "}
+          <strong className="text-ink">{tasks.missing_evidence} transaksi</strong> yang sudah tercatat belum memiliki bukti.{" "}
           <Link href="/kas?lingkup=gabungan&bukti=belum_ada&status=dibukukan" className="font-medium text-accent underline underline-offset-2">Lengkapi sekarang</Link>
         </p>
       )}

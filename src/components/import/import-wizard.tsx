@@ -90,7 +90,7 @@ export function ImportWizard({ orgId, accounts, funds, programs, categories }: {
       ["3. Jenis: Pemasukan, Pengeluaran, atau Transfer. Untuk mutasi bank boleh memakai kolom Masuk dan Keluar sebagai pengganti Jenis dan Nominal."],
       ["4. Nominal: angka rupiah tanpa titik, misalnya 1500000."],
       ["5. Kategori, Rekening, dan Dana harus sama dengan nama di aplikasi (lihat daftar di bawah). Dana kosong berarti Kas Umum."],
-      ["6. Semua baris masuk sebagai DRAFT. Periksa, lalu bukukan dari halaman Kas Umum. Mengunggah ulang berkas yang sama tidak menggandakan data."],
+      ["6. Semua baris masuk sebagai DRAFT. Periksa, lalu catat dari halaman Kas Umum. Mengunggah ulang berkas yang sama tidak menggandakan data."],
       [""],
       ["Kategori pemasukan", "Kategori pengeluaran", "Rekening", "Dana"],
     ].forEach((r) => help.addRow(r));
@@ -108,7 +108,7 @@ export function ImportWizard({ orgId, accounts, funds, programs, categories }: {
     if (!f) return;
     setError(null);
     if (/\.pdf$/i.test(f.name)) {
-      setError("Berkas PDF tidak dapat diubah menjadi transaksi. Simpan sebagai arsip dokumen di menu Arsip Bukti, lalu gunakan CSV atau XLSX untuk impor.");
+      setError("PDF tidak bisa diimpor. Simpan di Arsip Bukti, lalu impor lewat CSV atau XLSX.");
       return;
     }
     if (f.size > 10 * 1024 * 1024) {
@@ -398,9 +398,9 @@ export function ImportWizard({ orgId, accounts, funds, programs, categories }: {
           <CardContent className="space-y-4 text-center">
             <CheckCircle2 className="mx-auto size-9 text-accent" aria-hidden />
             <p className="text-base font-semibold text-ink">{result.imported} transaksi masuk sebagai draft</p>
-            <p className="mx-auto max-w-lg text-sm text-muted">Draft belum memengaruhi saldo. Tinjau setiap baris, lalu pilih dan bukukan. {result.duplicates > 0 && `${result.duplicates} baris dilewati karena sudah pernah diimpor.`}</p>
+            <p className="mx-auto max-w-lg text-sm text-muted">Draft belum mengubah saldo. Periksa, lalu catat. {result.duplicates > 0 && `${result.duplicates} baris dilewati karena sudah pernah diimpor.`}</p>
             <div className="flex flex-wrap justify-center gap-2">
-              <Button asChild variant="primary"><Link href={`/kas?lingkup=gabungan&status=draft&batch=${result.batch_id}`}>Tinjau dan bukukan</Link></Button>
+              <Button asChild variant="primary"><Link href={`/kas?lingkup=gabungan&status=draft&batch=${result.batch_id}`}>Tinjau dan catat</Link></Button>
               <Button onClick={() => { setStep(0); setRows([]); setResult(null); setTable(null); }}>Impor berkas lain</Button>
             </div>
           </CardContent>

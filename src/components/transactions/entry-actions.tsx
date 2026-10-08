@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { CheckCheck, Pencil, Trash2, Undo2 } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
-import { formatRupiah, todayJakarta } from "@/lib/format";
+import { todayJakarta } from "@/lib/format";
 import type { Entry } from "@/lib/types";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -42,12 +42,12 @@ export function EntryActions({ entry, backHref }: { entry: Entry; backHref: stri
           loading={post.pending}
           onClick={() =>
             post.run(() => supabase.rpc("post_entry", { p_entry_id: entry.id }), {
-              success: (d: { ref_no: string }) => `${d.ref_no} dibukukan`,
+              success: (d: { ref_no: string }) => `${d.ref_no} tercatat`,
               toastError: false,
             })
           }
         >
-          <CheckCheck aria-hidden />Bukukan
+          <CheckCheck aria-hidden />Catat
         </Button>
         <ConfirmDialog
           open={confirmDelete}
@@ -79,13 +79,13 @@ export function EntryActions({ entry, backHref }: { entry: Entry; backHref: stri
 
   return (
     <>
-      <Button variant="dangerOutline" onClick={() => { setReverseOpen(true); setTouched(false); rev.clearError(); }}><Undo2 aria-hidden />Balik</Button>
+      <Button variant="dangerOutline" onClick={() => { setReverseOpen(true); setTouched(false); rev.clearError(); }}><Undo2 aria-hidden />Batalkan</Button>
       <Dialog open={reverseOpen} onOpenChange={(v) => !rev.pending && setReverseOpen(v)}>
         <DialogContent size="md">
           <DialogHeader>
-            <DialogTitle>Balik transaksi {entry.ref_no}</DialogTitle>
+            <DialogTitle>Batalkan transaksi {entry.ref_no}</DialogTitle>
             <DialogDescription>
-              Transaksi yang sudah dibukukan tidak ditimpa atau dihapus. Aplikasi membuat jurnal pembalikan senilai {formatRupiah(entry.amount)} sehingga saldo kembali seperti sebelum transaksi ini, dan riwayatnya tetap tersimpan.
+              Saldo kembali seperti sebelum transaksi ini. Riwayatnya tetap tersimpan.
             </DialogDescription>
           </DialogHeader>
           <DialogBody className="space-y-4">
@@ -93,14 +93,14 @@ export function EntryActions({ entry, backHref }: { entry: Entry; backHref: stri
             <Field label="Alasan pembalikan" htmlFor="rev-reason" required error={touched && reasonMissing ? "Alasan wajib diisi." : null}>
               <Textarea {...fieldAria("rev-reason", touched && reasonMissing ? "x" : null)} rows={3} value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Misalnya: nominal salah, seharusnya Rp150.000" autoFocus />
             </Field>
-            <Field label="Tanggal pembalikan" htmlFor="rev-date" required error={touched ? dateError : null} help="Gunakan hari ini bila periode transaksi asal sudah ditutup.">
+            <Field label="Tanggal pembalikan" htmlFor="rev-date" required error={touched ? dateError : null} help="Pakai hari ini bila bulannya sudah ditutup.">
               <Input {...fieldAria("rev-date", touched ? dateError : null)} type="date" value={date} min={entry.entry_date} max={today} onChange={(e) => setDate(e.target.value)} />
             </Field>
             <div className="flex items-start gap-2.5">
               <Checkbox id="rev-repl" checked={replacement} onChange={(e) => setReplacement(e.target.checked)} className="mt-0.5" />
               <div>
                 <Label htmlFor="rev-repl" className="font-normal">Buat transaksi pengganti sebagai draft</Label>
-                <p className="text-[13px] text-muted">Isian transaksi ini disalin ke draft baru agar tinggal diperbaiki lalu dibukukan.</p>
+                <p className="text-[13px] text-muted">Isian transaksi ini disalin ke draft baru agar tinggal diperbaiki lalu tercatat.</p>
               </div>
             </div>
           </DialogBody>
@@ -118,7 +118,7 @@ export function EntryActions({ entry, backHref }: { entry: Entry; backHref: stri
                     toastError: false,
                     refresh: false,
                     onSuccess: (d: { reversal_ref: string; replacement_id: string | null }) => {
-                      toast.success(`${entry.ref_no} dibalik dengan ${d.reversal_ref}`, { description: d.replacement_id ? "Draft pengganti sudah dibuat. Perbaiki lalu bukukan." : undefined });
+                      toast.success(`${entry.ref_no} dibatalkan dengan ${d.reversal_ref}`, { description: d.replacement_id ? "Draft pengganti sudah dibuat. Perbaiki lalu catat." : undefined });
                       setReverseOpen(false);
                       if (d.replacement_id) router.push(`/kas/${d.replacement_id}/ubah`);
                       router.refresh();
@@ -127,7 +127,7 @@ export function EntryActions({ entry, backHref }: { entry: Entry; backHref: stri
                 );
               }}
             >
-              Balik transaksi
+              Batalkan transaksi
             </Button>
           </DialogFooter>
         </DialogContent>

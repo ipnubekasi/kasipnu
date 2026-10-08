@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Search, X } from "@/components/ui/icons";
+import { ChevronLeft, ChevronRight, Search, SlidersHorizontal, X } from "@/components/ui/icons";
 import { Input, Select } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -151,15 +151,15 @@ export function LinkTabs({ tabs, active, className }: { tabs: { key: string; lab
   );
 }
 
-/** Filter tambahan: di ponsel disembunyikan di balik tombol agar daftar tetap mudah dibaca. */
+/** Filter tambahan: satu tombol yang membuka dropdown tambahan di bawah baris utama. */
 export function MoreFilters({ active, children }: { active: number; children: React.ReactNode }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(active > 0);
   return (
     <>
-      <Button size="sm" className="md:hidden" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        {open ? "Sembunyikan filter" : `Filter lainnya${active ? ` (${active} aktif)` : ""}`}
+      <Button size="sm" className="h-9 w-full md:w-auto" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        <SlidersHorizontal aria-hidden />{active ? `Filter lain (${active})` : "Filter lain"}
       </Button>
-      <div className={cn("w-full flex-wrap items-center gap-2 md:flex md:w-auto", open ? "flex" : "hidden")}>{children}</div>
+      {open && <div className="col-span-2 grid grid-cols-2 gap-2 md:flex md:basis-full md:flex-wrap md:items-center">{children}</div>}
     </>
   );
 }

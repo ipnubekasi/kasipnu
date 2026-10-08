@@ -52,9 +52,9 @@ type Props = {
 };
 
 const KINDS: { key: Kind; label: string; icon: React.ComponentType<{ className?: string }>; hint: string }[] = [
-  { key: "pemasukan", label: "Pemasukan", icon: ArrowDownLeft, hint: "Uang diterima dari pihak luar" },
-  { key: "pengeluaran", label: "Pengeluaran", icon: ArrowUpRight, hint: "Uang dibayarkan ke pihak luar" },
-  { key: "transfer", label: "Transfer", icon: ArrowLeftRight, hint: "Pindah antarrekening atau antardana" },
+  { key: "pemasukan", label: "Pemasukan", icon: ArrowDownLeft, hint: "Uang masuk" },
+  { key: "pengeluaran", label: "Pengeluaran", icon: ArrowUpRight, hint: "Uang keluar" },
+  { key: "transfer", label: "Transfer", icon: ArrowLeftRight, hint: "Pindah rekening atau dana" },
 ];
 
 export function TransactionForm({ orgId, accounts, funds, programs, categories, positions, maxMb, entry, existingAttachments = 0, defaults, returnTo }: Props) {
@@ -191,7 +191,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
       if (action === "post") {
         const { data, error } = await supabase.rpc("save_and_post", { p_org: orgId, p_payload: payload, p_entry_id: entry?.id ?? null, p_idempotency_key: entry ? null : idem.current });
         if (error) {
-          // Bila pembukuan ditolak (misalnya periode tertutup), isian tetap ada di formulir.
+          // Bila pencatatan ditolak (misalnya periode tertutup), isian tetap ada di formulir.
           setFormError(friendlyError(error));
           return;
         }
@@ -219,8 +219,8 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
       if (failed > 0) {
         toast.warning(`Transaksi tersimpan, tetapi ${failed} bukti gagal diunggah.`, { description: "Unggah ulang dari halaman detail transaksi." });
       } else {
-        toast.success(action === "post" ? `${ref} dibukukan` : "Draft tersimpan", {
-          description: action === "post" ? `${formatRupiah(amount)} · ${description.trim()}` : "Draft belum memengaruhi saldo. Bukukan setelah diperiksa.",
+        toast.success(action === "post" ? `${ref} tercatat` : "Draft tersimpan", {
+          description: action === "post" ? `${formatRupiah(amount)} · ${description.trim()}` : "Draft belum memengaruhi saldo. Catat setelah diperiksa.",
         });
       }
       router.push(`/kas/${id}${returnTo && returnTo !== "/kas" ? `?kembali=${encodeURIComponent(returnTo)}` : ""}`);
@@ -245,12 +245,12 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
         {formError && <Alert tone="danger" title={formError.message}>{formError.hint}</Alert>}
         {defaults?.needName && !isEdit && (
           <Alert tone="info" title={`${kind === "pemasukan" ? "Penerimaan untuk rencana" : "Pembayaran untuk kebutuhan"}: ${defaults.needName}`}>
-            Setelah dibukukan, kebutuhan ini otomatis ditandai selesai dan terhubung ke transaksi ini sehingga tidak dihitung dua kali.
+            Kebutuhan ini otomatis selesai setelah transaksi tercatat.
           </Alert>
         )}
         {entry?.replaces_id && (
           <Alert tone="info" title="Transaksi pengganti">
-            Draft ini menggantikan transaksi yang sudah dibalik. Perbaiki isiannya, lalu bukukan.{" "}
+            Perbaiki isiannya, lalu simpan.{" "}
             <Link href={`/kas/${entry.replaces_id}`} className="font-medium text-accent underline underline-offset-2">Lihat transaksi asal</Link>
           </Alert>
         )}
@@ -282,7 +282,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                     );
                   })}
                 </div>
-                <p className="mt-1.5 text-[13px] text-muted">{KINDS.find((k) => k.key === kind)?.hint}.{kind === "transfer" && " Transfer internal bukan pendapatan atau beban."}</p>
+                <p className="mt-1.5 text-[13px] text-muted">{KINDS.find((k) => k.key === kind)?.hint}</p>
               </fieldset>
             )}
 
@@ -290,7 +290,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
               <Field label="Tanggal transaksi" htmlFor="date" required error={errors.date}>
                 <Input {...fieldAria("date", errors.date)} type="date" value={date} max={undefined} onChange={(e) => touch(setDate)(e.target.value)} />
               </Field>
-              <Field label="Nomor referensi" htmlFor="ref" help={entry?.ref_no ? undefined : "Diberikan otomatis saat dibukukan."}>
+              <Field label="Nomor referensi" htmlFor="ref" help={undefined}>
                 <Input id="ref" value={entry?.ref_no ?? "Otomatis"} disabled readOnly />
               </Field>
             </div>
@@ -356,7 +356,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                       </Field>
                     )}
                     {mode === "dana" ? (
-                      <Field label="Rekening" htmlFor="toAccountSame" help="Uang tidak berpindah rekening."><Input id="toAccountSame" value={accountName(accountId) || "Sama dengan sumber"} disabled readOnly /></Field>
+                      <Field label="Rekening" htmlFor="toAccountSame"><Input id="toAccountSame" value={accountName(accountId) || "Sama dengan sumber"} disabled readOnly /></Field>
                     ) : (
                       <Field label="Rekening tujuan" htmlFor="toAccount" required error={errors.toAccount}>
                         <Select {...fieldAria("toAccount", errors.toAccount)} value={toAccountId} onChange={(e) => touch(setToAccountId)(e.target.value)}>
@@ -371,7 +371,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
             ) : (
               <>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <Field label="Dana" htmlFor="fundKind" required help={fundIsProgram ? "Dana program terikat pada tujuan program." : "Dana umum yang bebas digunakan."}>
+                  <Field label="Dana" htmlFor="fundKind" required help={fundIsProgram ? "Dana ini hanya untuk programnya." : undefined}>
                     <Select
                       id="fundKind"
                       value={fundIsProgram ? "program" : "umum"}
@@ -407,14 +407,14 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                   )}
                 </div>
                 {kind !== "saldo_awal" && (
-                  <Field label={kind === "pengeluaran" ? "Penerima" : "Pemberi"} htmlFor="counterparty" help={kind === "pengeluaran" ? "Toko, vendor, atau orang yang menerima uang." : "Orang atau lembaga yang memberi uang."}>
+                  <Field label={kind === "pengeluaran" ? "Penerima" : "Pemberi"} htmlFor="counterparty">
                     <Input id="counterparty" value={counterparty} onChange={(e) => touch(setCounterparty)(e.target.value)} maxLength={120} autoComplete="off" />
                   </Field>
                 )}
               </>
             )}
 
-            <Field label="Uraian" htmlFor="description" required error={errors.description} help="Singkat dan jelas, misalnya: Konsumsi rapat harian 5 Oktober.">
+            <Field label="Uraian" htmlFor="description" required error={errors.description}>
               <Input {...fieldAria("description", errors.description)} value={description} onChange={(e) => touch(setDescription)(e.target.value)} maxLength={200} autoComplete="off" />
             </Field>
 
@@ -427,7 +427,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                 <Checkbox id="oneOff" checked={oneOff} onChange={(e) => touch(setOneOff)(e.target.checked)} className="mt-0.5" />
                 <div>
                   <Label htmlFor="oneOff" className="font-normal">Pengeluaran besar sekali terjadi</Label>
-                  <p className="text-[13px] text-muted">Tidak dihitung dalam rata-rata biaya operasional rutin pada Kesehatan Keuangan.</p>
+                  <p className="text-[13px] text-muted">Tidak dihitung sebagai biaya rutin.</p>
                 </div>
               </div>
             )}
@@ -452,7 +452,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                     <Input {...fieldAria("evidenceReason", errors.evidenceReason)} value={evidenceReason} onChange={(e) => touch(setEvidenceReason)(e.target.value)} placeholder="Misalnya: parkir tanpa karcis" maxLength={200} />
                   </Field>
                 )}
-                {!noEvidence && <p className="text-[13px] text-muted">Bukti dapat diunggah nanti. Transaksi tanpa bukti akan muncul di daftar pekerjaan.</p>}
+                {!noEvidence && <p className="text-[13px] text-muted">Bukti bisa diunggah nanti.</p>}
               </div>
             )}
           </CardContent>
@@ -464,7 +464,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
           <CardHeader><CardTitle>Dampak ke saldo</CardTitle></CardHeader>
           <CardContent className="space-y-3 text-sm">
             {impacts.length === 0 ? (
-              <p className="flex gap-2 text-muted"><Info className="mt-0.5 size-4 shrink-0" aria-hidden />Isi nominal, dana, dan rekening untuk melihat saldo sebelum dan sesudah transaksi dibukukan.</p>
+              <p className="flex gap-2 text-muted"><Info className="mt-0.5 size-4 shrink-0" aria-hidden />Isi nominal, dana, dan rekening untuk melihat saldo.</p>
             ) : (
               <ul className="space-y-2.5">
                 {impacts.map((i) => (
@@ -475,7 +475,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
                       <ArrowRight className="size-3.5 shrink-0 text-faint" aria-hidden />
                       <Money value={i.after} className="font-semibold" tone={i.after < 0 ? "out" : undefined} />
                     </p>
-                    {i.kind === "gabungan" && i.before === i.after && <p className="text-[12px] text-muted">Transfer internal tidak mengubah saldo gabungan.</p>}
+                    {i.kind === "gabungan" && i.before === i.after && <p className="text-[12px] text-muted">Tidak mengubah saldo gabungan.</p>}
                   </li>
                 ))}
               </ul>
@@ -491,7 +491,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
         </Card>
 
         <div className="hidden flex-col gap-2 lg:flex">
-          <Button type="submit" variant="primary" size="lg" loading={pending === "post"} disabled={pending === "draft"}>Simpan dan Bukukan</Button>
+          <Button type="submit" variant="primary" size="lg" loading={pending === "post"} disabled={pending === "draft"}>Simpan</Button>
           <Button type="button" size="lg" loading={pending === "draft"} disabled={pending === "post"} onClick={() => submit("draft")}>Simpan sebagai Draft</Button>
           <Button asChild variant="ghost"><Link href={returnTo}>Batal</Link></Button>
         </div>
@@ -500,7 +500,7 @@ export function TransactionForm({ orgId, accounts, funds, programs, categories, 
       {/* Aksi utama di bawah layar pada ponsel agar mudah dijangkau */}
       <div className="no-print fixed inset-x-0 bottom-14 z-20 flex gap-2 border-t border-line bg-surface px-4 py-3 lg:hidden">
         <Button type="button" className="flex-1" size="lg" loading={pending === "draft"} disabled={pending === "post"} onClick={() => submit("draft")}>Draft</Button>
-        <Button type="submit" variant="primary" className="flex-[2]" size="lg" loading={pending === "post"} disabled={pending === "draft"}>Simpan dan Bukukan</Button>
+        <Button type="submit" variant="primary" className="flex-[2]" size="lg" loading={pending === "post"} disabled={pending === "draft"}>Simpan</Button>
       </div>
       <div className="h-16 lg:hidden" aria-hidden />
     </form>

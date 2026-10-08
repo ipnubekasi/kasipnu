@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileDown, FileUp, Plus, ReceiptText, Scale } from "@/components/ui/icons";
+import { Plus, ReceiptText } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/app/page-header";
@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/app/states";
 import { MoreFilters, Pagination, PeriodSelect, ScopeSelect, UrlSearch, UrlSelect } from "@/components/app/url-controls";
 import { CombinedNotice } from "@/components/cash/scope-notice";
 import { FlowStrip } from "@/components/cash/flow-strip";
+import { KasActions } from "@/components/cash/kas-actions";
 import { TransactionTable } from "@/components/transactions/transaction-table";
 import { getAppContext, getMaster } from "@/lib/context";
 import { fetchCashSummary, fetchTransactions } from "@/lib/queries";
@@ -52,20 +53,16 @@ export default async function CashPage({ searchParams }: { searchParams: Promise
   const title = scope.kind === "umum" ? "Kas Umum" : scope.kind === "gabungan" ? "Transaksi Gabungan" : `Transaksi ${scope.label}`;
   const newHref = `/kas/baru${qs({ dana: scope.kind === "gabungan" ? null : scope.key, kembali: backHref })}`;
 
+  const exportHref = `/laporan${qs({ jenis: "buku-kas", lingkup: sp.lingkup, periode: sp.periode, dari: sp.dari, sampai: sp.sampai, rekening: sp.rekening })}`;
+  const wide = "w-full md:w-auto";
+
   return (
     <>
       <PageHeader
         title={title}
-        description={
-          scope.kind === "umum" ? "Semua pemasukan, pengeluaran, dan transfer pada dana umum organisasi."
-            : scope.kind === "program" ? "Transaksi pada dana program ini. Transfer dari atau ke Kas Umum tampil sebagai transfer, bukan pendapatan."
-              : "Seluruh transaksi organisasi dari semua dana."
-        }
         actions={
           <>
-            {ctx.canWrite && <Button asChild><Link href="/kas/impor"><FileUp aria-hidden />Impor</Link></Button>}
-            <Button asChild><Link href={`/laporan${qs({ jenis: "buku-kas", lingkup: sp.lingkup, periode: sp.periode, dari: sp.dari, sampai: sp.sampai, rekening: sp.rekening })}`}><FileDown aria-hidden />Ekspor</Link></Button>
-            <Button asChild><Link href="/kas/rekonsiliasi"><Scale aria-hidden />Rekonsiliasi</Link></Button>
+            <KasActions canWrite={ctx.canWrite} exportHref={exportHref} />
             {ctx.canWrite && <Button asChild variant="primary" className="hidden lg:inline-flex"><Link href={newHref}><Plus aria-hidden />Catat Transaksi</Link></Button>}
           </>
         }
@@ -73,40 +70,37 @@ export default async function CashPage({ searchParams }: { searchParams: Promise
 
       {scope.kind === "gabungan" && <CombinedNotice general={generalNow?.closing} restricted={Number(summary.closing) - Number(generalNow?.closing ?? 0)} />}
 
-      <Card className="mb-4 px-4 py-3 sm:px-5">
-        <FlowStrip s={summary} from={period.from} to={period.to} showTransfers={scope.kind !== "gabungan" || Boolean(account)} />
-        <p className="mt-2 text-[12px] text-muted">
-          {scope.label}{account ? ` · ${account.name}` : ""} · {period.label}. Draft tidak dihitung.
-        </p>
+      <Card className="mb-4 p-4 sm:p-5">
+        <FlowStrip s={summary} showTransfers={scope.kind !== "gabungan" || Boolean(account)} />
       </Card>
 
       <Card>
-        <div className="flex flex-wrap items-center gap-2 border-b border-line px-4 py-3 sm:px-5">
-          <ScopeSelect value={scope.key} programs={master.programs} />
-          <PeriodSelect value={period.key} from={period.from} to={period.to} defaultKey={reviewing ? "semua" : "bulan-ini"} />
-          <MoreFilters active={[kinds, statuses, category, account, evidence].filter(Boolean).length}>
-          <UrlSelect name="jenis" label="Jenis transaksi" value={sp.jenis ?? ""} options={[
+        <div className="grid grid-cols-2 gap-2 border-b border-line px-4 py-3 sm:px-5 md:flex md:flex-wrap md:items-center">
+          <ScopeSelect value={scope.key} programs={master.programs} className={wide} />
+          <PeriodSelect value={period.key} from={period.from} to={period.to} defaultKey={reviewing ? "semua" : "bulan-ini"} className={wide} wrapClassName="min-w-0 [&>div]:w-full" />
+          <UrlSelect className={wide} name="jenis" label="Jenis" value={sp.jenis ?? ""} options={[
             { value: "", label: "Semua jenis" }, { value: "pemasukan", label: "Pemasukan" }, { value: "pengeluaran", label: "Pengeluaran" },
-            { value: "transfer", label: "Transfer" }, { value: "saldo_awal", label: "Saldo awal" }, { value: "penyesuaian", label: "Penyesuaian" }, { value: "pembalikan", label: "Pembalikan" },
+            { value: "transfer", label: "Transfer" }, { value: "saldo_awal", label: "Saldo awal" }, { value: "penyesuaian", label: "Penyesuaian" }, { value: "pembalikan", label: "Pembatalan" },
           ]} />
-          <UrlSelect name="status" label="Status pencatatan" value={sp.status ?? ""} options={[
-            { value: "", label: "Semua status" }, { value: "draft", label: "Draft" }, { value: "dibukukan", label: "Dibukukan" }, { value: "dibalik", label: "Dibalik" },
+          <UrlSelect className={wide} name="status" label="Status" value={sp.status ?? ""} options={[
+            { value: "", label: "Semua status" }, { value: "draft", label: "Draft" }, { value: "dibukukan", label: "Tercatat" }, { value: "dibalik", label: "Dibatalkan" },
           ]} />
-          <UrlSelect name="kategori" label="Kategori" value={category?.id ?? ""} options={[
-            { value: "", label: "Semua kategori" },
-            ...master.categories.map((c) => ({ value: c.id, label: c.name, group: c.kind === "pemasukan" ? "Pemasukan" : "Pengeluaran" })),
-          ]} />
-          <UrlSelect name="rekening" label="Rekening" value={account?.id ?? ""} options={[{ value: "", label: "Semua rekening" }, ...master.cashAccounts.map((a) => ({ value: a.id, label: a.name }))]} />
-          <UrlSelect name="bukti" label="Status bukti" value={evidence ?? ""} options={[
-            { value: "", label: "Semua bukti" }, { value: "lengkap", label: "Bukti lengkap" }, { value: "belum_ada", label: "Bukti belum ada" }, { value: "tidak_tersedia", label: "Bukti tidak tersedia" },
-          ]} />
+          <MoreFilters active={[category, account, evidence].filter(Boolean).length}>
+            <UrlSelect className={wide} name="kategori" label="Kategori" value={category?.id ?? ""} options={[
+              { value: "", label: "Semua kategori" },
+              ...master.categories.map((c) => ({ value: c.id, label: c.name, group: c.kind === "pemasukan" ? "Pemasukan" : "Pengeluaran" })),
+            ]} />
+            <UrlSelect className={wide} name="rekening" label="Rekening" value={account?.id ?? ""} options={[{ value: "", label: "Semua rekening" }, ...master.cashAccounts.map((a) => ({ value: a.id, label: a.name }))]} />
+            <UrlSelect className={wide} name="bukti" label="Bukti" value={evidence ?? ""} options={[
+              { value: "", label: "Semua bukti" }, { value: "lengkap", label: "Ada bukti" }, { value: "belum_ada", label: "Belum ada bukti" }, { value: "tidak_tersedia", label: "Tanpa bukti" },
+            ]} />
           </MoreFilters>
-          <div className="w-full sm:ml-auto sm:w-auto"><UrlSearch value={sp.cari ?? ""} placeholder="Cari uraian, nomor, atau pihak" /></div>
+          <div className="col-span-2 md:ml-auto md:w-64"><UrlSearch value={sp.cari ?? ""} placeholder="Cari transaksi" /></div>
         </div>
 
         {sp.batch && (
           <p className="border-b border-line bg-info-soft px-4 py-2 text-[13px] text-ink sm:px-5">
-            Menampilkan hasil satu kali impor. Periksa setiap draft, lalu pilih dan bukukan. <Link href="/kas" className="font-medium text-info underline underline-offset-2">Tampilkan semua transaksi</Link>
+            Hasil impor. Periksa, lalu pilih dan catat. <Link href="/kas" className="font-medium text-info underline underline-offset-2">Lihat semua</Link>
           </p>
         )}
 
@@ -114,15 +108,15 @@ export default async function CashPage({ searchParams }: { searchParams: Promise
           hasFilter || period.key !== "bulan-ini" ? (
             <EmptyState
               icon={ReceiptText}
-              title="Tidak ada transaksi yang cocok"
-              description={`Tidak ada transaksi pada ${scope.label} untuk ${period.label} dengan filter yang dipilih. Ubah periode atau hapus filter.`}
+              title="Tidak ada transaksi"
+              description="Coba ubah periode atau hapus filter."
               action={<Button asChild><Link href={`/kas${qs({ lingkup: sp.lingkup })}`}>Hapus filter</Link></Button>}
             />
           ) : (
             <EmptyState
               icon={ReceiptText}
-              title={`Belum ada transaksi bulan ini pada ${scope.label}`}
-              description="Catat pemasukan atau pengeluaran pertama. Bila organisasi sudah memiliki uang sebelum memakai aplikasi ini, isi saldo awal lebih dulu."
+              title="Belum ada transaksi bulan ini"
+              description="Mulai dengan mencatat pemasukan atau pengeluaran."
               action={
                 ctx.canWrite ? (
                   <>

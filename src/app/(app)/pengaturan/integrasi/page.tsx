@@ -42,9 +42,9 @@ export default function IntegrationPage() {
           <ul className="list-disc space-y-1 pl-5">
             <li>Pencatatan rekening bank dan input saldo awal.</li>
             <li>Input transaksi manual dan impor mutasi rekening dari CSV atau XLSX.</li>
-            <li>Rekonsiliasi Saldo Buku dengan rekening koran.</li>
+            <li>Cocokkan saldo dengan rekening koran.</li>
           </ul>
-          <p className="pt-1 text-[13px]">Saldo yang tampil di aplikasi adalah Saldo Buku menurut pencatatan, bukan saldo bank waktu nyata. Persiapan aktivasi dijelaskan di <code className="rounded bg-subtle px-1">docs/07 Integrasi Bank dan QRIS.md</code>.</p>
+          <p className="pt-1 text-[13px]">Saldo yang tampil di aplikasi adalah Saldo aplikasi menurut pencatatan, bukan saldo bank waktu nyata. Persiapan aktivasi dijelaskan di <code className="rounded bg-subtle px-1">docs/07 Integrasi Bank dan QRIS.md</code>.</p>
         </CardContent>
       </Card>
     </>
