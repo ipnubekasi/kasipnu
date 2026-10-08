@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Archive } from "lucide-react";
+import { Archive } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { formatBytes, formatDateTime, todayJakarta } from "@/lib/format";

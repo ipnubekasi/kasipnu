@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Download, FileSpreadsheet, TriangleAlert, Upload, XCircle } from "lucide-react";
+import { CheckCircle2, Download, FileSpreadsheet, TriangleAlert, Upload, XCircle } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { friendlyError } from "@/lib/errors";

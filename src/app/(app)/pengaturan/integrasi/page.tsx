@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Landmark, QrCode } from "lucide-react";
+import { Landmark, QrCode } from "@/components/ui/icons";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";

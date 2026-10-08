@@ -99,10 +99,6 @@ export function SignupForm() {
         <PasswordInput {...fieldAria("confirm", errors.confirm)} autoComplete="new-password" value={confirm} onChange={(e) => setConfirm(e.target.value)} />
       </Field>
       <Button type="submit" variant="primary" size="lg" className="w-full" loading={pending}>Daftar</Button>
-      <p className="text-center text-sm">
-        Sudah punya akun?{" "}
-        <Link href="/login" className="text-accent underline-offset-4 hover:underline">Masuk</Link>
-      </p>
     </form>
   );
 }

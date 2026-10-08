@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { FileSpreadsheet, FileText, Table2 } from "lucide-react";
+import { FileSpreadsheet, FileText, Table2 } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { formatDate, formatDateTime, formatNumber, formatRupiah } from "@/lib/format";
 import { downloadBlob, toCsv, toPdf, toXlsx } from "@/lib/reports/export";

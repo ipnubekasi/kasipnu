@@ -12,7 +12,7 @@ function DropdownMenuContent({ className, sideOffset = 6, ...props }: React.Comp
     <Primitive.Portal>
       <Primitive.Content
         sideOffset={sideOffset}
-        className={cn("z-50 min-w-48 rounded-control border border-line bg-surface p-1 shadow-pop data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95", className)}
+        className={cn("z-50 min-w-48 rounded-2xl border border-line/80 bg-surface p-1.5 shadow-pop data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95", className)}
         {...props}
       />
     </Primitive.Portal>
@@ -22,7 +22,7 @@ function DropdownMenuItem({ className, tone, ...props }: React.ComponentProps<ty
   return (
     <Primitive.Item
       className={cn(
-        "flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-subtle [&_svg]:size-4 [&_svg]:text-muted",
+        "flex cursor-pointer items-center gap-2 rounded-xl px-2.5 py-2.5 text-sm outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[highlighted]:bg-subtle [&_svg]:size-4 [&_svg]:text-muted",
         tone === "danger" && "text-danger [&_svg]:text-danger",
         className,
       )}

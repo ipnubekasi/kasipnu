@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, CheckCheck } from "lucide-react";
+import { ArrowRight, CheckCheck } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate, formatDateTime } from "@/lib/format";
 import type { Notification } from "@/lib/types";

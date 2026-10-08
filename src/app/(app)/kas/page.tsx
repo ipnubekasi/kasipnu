@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileDown, FileUp, Plus, ReceiptText, Scale } from "lucide-react";
+import { FileDown, FileUp, Plus, ReceiptText, Scale } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/app/page-header";

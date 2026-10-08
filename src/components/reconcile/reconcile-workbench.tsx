@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CheckCheck, Plus, Trash2 } from "lucide-react";
+import { CheckCheck, Plus, Trash2 } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate, formatRupiah } from "@/lib/format";
 import { Alert } from "@/components/ui/alert";

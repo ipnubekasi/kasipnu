@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Download, Eye, FileImage, FileText, History, RefreshCw, Trash2 } from "lucide-react";
+import { Download, Eye, FileImage, FileText, History, RefreshCw, Trash2 } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { ACCEPT, signedUrl, uploadAttachment, validateFile } from "@/lib/attachments";

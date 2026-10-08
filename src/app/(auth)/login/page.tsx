@@ -13,7 +13,7 @@ const NOTICES: Record<string, string> = {
 export default async function LoginPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const sp = await searchParams;
   return (
-    <AuthCard title="Masuk" subtitle="Pencatatan keuangan yang rapi untuk keberlanjutan organisasi.">
+    <AuthCard tab="masuk" title="Selamat datang kembali" subtitle="Masuk untuk melanjutkan pencatatan keuangan organisasi.">
       <LoginForm next={param(sp.lanjut)} notice={NOTICES[param(sp.info) ?? ""]} />
     </AuthCard>
   );

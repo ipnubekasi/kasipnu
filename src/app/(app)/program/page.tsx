@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FolderKanban } from "lucide-react";
+import { FolderKanban } from "@/components/ui/icons";
 import { Card } from "@/components/ui/card";
 import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
 import { HealthBadge, ProgramStatusBadge } from "@/components/app/badges";

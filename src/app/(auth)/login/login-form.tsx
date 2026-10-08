@@ -58,7 +58,7 @@ export function LoginForm({ next, notice }: { next?: string; notice?: string }) 
       {notice && <Alert tone="ok">{notice}</Alert>}
       {errors.form && <Alert tone="danger">{errors.form}</Alert>}
       <Field label="Email" htmlFor="email" error={errors.email}>
-        <Input {...fieldAria("email", errors.email)} type="email" inputMode="email" autoComplete="username" autoCapitalize="none" className="h-11" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
+        <Input {...fieldAria("email", errors.email)} type="email" inputMode="email" autoComplete="username" autoCapitalize="none" className="h-12" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
       </Field>
       <Field label="Password" htmlFor="password" error={errors.password}>
         <PasswordInput {...fieldAria("password", errors.password)} autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -66,10 +66,6 @@ export function LoginForm({ next, notice }: { next?: string; notice?: string }) 
       <Button type="submit" variant="primary" size="lg" className="w-full" loading={pending}>Masuk</Button>
       <p className="text-center text-sm">
         <Link href="/lupa-password" className="text-accent underline-offset-4 hover:underline">Lupa password?</Link>
-      </p>
-      <p className="text-center text-sm">
-        Belum punya akun?{" "}
-        <Link href="/daftar" className="text-accent underline-offset-4 hover:underline">Daftar</Link>
       </p>
     </form>
   );

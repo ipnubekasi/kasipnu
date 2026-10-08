@@ -4,23 +4,23 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control text-sm font-medium transition-[background-color,box-shadow,transform] duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-[18px] [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        primary: "bg-primary text-white hover:bg-primary-hover",
-        secondary: "border border-line-strong bg-surface text-ink hover:bg-subtle",
+        primary: "bg-gradient-to-b from-[#1a8556] to-primary text-white shadow-[0_6px_16px_-8px_rgb(21_114_74/0.7)] hover:from-primary hover:to-primary-hover",
+        secondary: "border border-line-strong bg-surface text-ink shadow-[0_1px_0_rgb(14_58_40/0.03)] hover:bg-subtle",
         ghost: "text-ink hover:bg-subtle",
         danger: "bg-danger text-white hover:bg-danger/90",
         dangerOutline: "border border-danger-line bg-surface text-danger hover:bg-danger-soft",
         link: "h-auto p-0 text-accent underline-offset-4 hover:underline",
       },
       size: {
-        sm: "h-8 px-3 text-[13px]",
-        md: "h-10 px-4",
-        lg: "h-11 px-5 text-[15px]",
-        icon: "size-10",
-        iconSm: "size-8",
+        sm: "h-9 px-3.5 text-[13px]",
+        md: "h-11 px-4.5 sm:h-10",
+        lg: "h-12 px-5 text-[15px]",
+        icon: "size-11 sm:size-10",
+        iconSm: "size-9",
       },
     },
     defaultVariants: { variant: "secondary", size: "md" },

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { BellOff } from "lucide-react";
+import { BellOff } from "@/components/ui/icons";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/app/page-header";
 import { EmptyState } from "@/components/app/states";

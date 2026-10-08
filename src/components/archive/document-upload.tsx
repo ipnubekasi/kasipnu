@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Upload } from "lucide-react";
+import { Upload } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
 import { uploadAttachment } from "@/lib/attachments";
 import type { Program } from "@/lib/types";

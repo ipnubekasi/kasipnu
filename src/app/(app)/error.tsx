@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { RefreshCw, TriangleAlert } from "lucide-react";
+import { RefreshCw, TriangleAlert } from "@/components/ui/icons";
 import { Button } from "@/components/ui/button";
 
 export default function AppError({ error, retry }: { error: Error & { digest?: string }; retry: () => void }) {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CircleCheck, FileQuestion, FlaskConical, Landmark, PencilLine, Plus, Scale, Wallet } from "lucide-react";
+import { ArrowRight, CircleCheck, FileQuestion, FlaskConical, Landmark, PencilLine, Plus, Scale, Wallet } from "@/components/ui/icons";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

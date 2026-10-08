@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Download, Eye, FileImage, FileText } from "lucide-react";
+import { Download, Eye, FileImage, FileText } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { signedUrl } from "@/lib/attachments";

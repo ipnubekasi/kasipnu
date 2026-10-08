@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FileBarChart } from "lucide-react";
+import { FileBarChart } from "@/components/ui/icons";
 import { Alert } from "@/components/ui/alert";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/app/page-header";

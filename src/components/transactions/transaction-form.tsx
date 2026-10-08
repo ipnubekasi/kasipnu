@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { ArrowDownLeft, ArrowLeftRight, ArrowRight, ArrowUpRight, Info, TriangleAlert } from "lucide-react";
+import { ArrowDownLeft, ArrowLeftRight, ArrowRight, ArrowUpRight, Info, TriangleAlert } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
 import { uploadAttachment } from "@/lib/attachments";
 import { friendlyError, type FriendlyError } from "@/lib/errors";

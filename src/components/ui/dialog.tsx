@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Dialog as DialogPrimitive } from "radix-ui";
-import { X } from "lucide-react";
+import { X } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
 const Dialog = DialogPrimitive.Root;
@@ -15,21 +15,21 @@ function DialogContent({
   const width = { sm: "sm:max-w-sm", md: "sm:max-w-lg", lg: "sm:max-w-2xl", xl: "sm:max-w-4xl" }[size];
   return (
     <DialogPrimitive.Portal>
-      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-ink/40 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+      <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-ink/40 backdrop-blur-[2px] data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
       <DialogPrimitive.Content
         className={cn(
           "fixed z-50 flex flex-col bg-surface shadow-pop outline-none data-[state=open]:animate-in data-[state=closed]:animate-out",
           side === "left"
-            ? "inset-y-0 left-0 w-[280px] data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left"
+            ? "inset-y-3 left-3 w-[300px] rounded-[28px] data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left"
             : side === "bottom"
-              ? "inset-x-0 bottom-0 max-h-[85dvh] rounded-t-card data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom"
-              : cn("inset-x-0 bottom-0 max-h-[92dvh] rounded-t-card data-[state=open]:slide-in-from-bottom-4 data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card", width),
+              ? "inset-x-0 bottom-0 max-h-[85dvh] rounded-t-[28px] pb-[env(safe-area-inset-bottom)] data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom"
+              : cn("inset-x-0 bottom-0 max-h-[92dvh] rounded-t-[28px] pb-[env(safe-area-inset-bottom)] data-[state=open]:slide-in-from-bottom-4 data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card", width),
           className,
         )}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute top-3 right-3 rounded-md p-1.5 text-muted hover:bg-subtle hover:text-ink" aria-label="Tutup">
+        <DialogPrimitive.Close className="absolute top-3 right-3 rounded-full p-2 text-muted hover:bg-subtle hover:text-ink" aria-label="Tutup">
           <X className="size-4" />
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Plus, Trash2, Upload } from "lucide-react";
+import { Plus, Trash2, Upload } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { BUCKET } from "@/lib/attachments";

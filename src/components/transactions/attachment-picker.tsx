@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Camera, FileText, Paperclip, Trash2, UploadCloud } from "lucide-react";
+import { Camera, FileText, Paperclip, Trash2, UploadCloud } from "@/components/ui/icons";
 import { ACCEPT, validateFile } from "@/lib/attachments";
 import { formatBytes } from "@/lib/format";
 import { cn } from "@/lib/utils";

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Ban, Pencil, Plus, Wallet } from "lucide-react";
+import { Ban, Pencil, Plus, Wallet } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate, todayJakarta } from "@/lib/format";

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "@/components/ui/icons";
 import { formatDateTime, formatDecimal } from "@/lib/format";
 import { HEALTH_LABEL } from "@/lib/labels";
 import type { Health } from "@/lib/types";

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Pencil, ShieldOff, UserPlus } from "lucide-react";
+import { Pencil, ShieldOff, UserPlus } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { formatDateTime } from "@/lib/format";

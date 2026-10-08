@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AlertTriangle, CheckCircle2, Info, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Info, XCircle } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
 const TONES = {

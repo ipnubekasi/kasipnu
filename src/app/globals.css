@@ -1,52 +1,77 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Design system Kas IPNU: tenang, bersih, efektif untuk administrasi keuangan. */
+/* Design system Kas IPNU: tenang, lembut, nyaman dipakai di ponsel maupun layar besar. */
 @theme inline {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 
-  --color-canvas: #f7f8fa;
+  --color-canvas: #f3f7f4;
   --color-surface: #ffffff;
-  --color-subtle: #f3f5f4;
-  --color-ink: #17211b;
-  --color-muted: #5b665f;
-  --color-faint: #8a938d;
-  --color-line: #e5e7eb;
-  --color-line-strong: #d1d5db;
+  --color-subtle: #eef3ef;
+  --color-ink: #14241b;
+  --color-muted: #55645b;
+  --color-faint: #86948b;
+  --color-line: #e4ebe6;
+  --color-line-strong: #d2dcd5;
 
-  --color-primary: #14532d;
-  --color-primary-hover: #0f4425;
-  --color-accent: #15803d;
-  --color-accent-soft: #ecfdf3;
-  --color-accent-line: #bbf7d0;
+  --color-primary: #15724a;
+  --color-primary-hover: #0f5f3c;
+  --color-accent: #168050;
+  --color-accent-soft: #e8f5ed;
+  --color-accent-line: #c5e6d2;
 
-  --color-warn: #b45309;
-  --color-warn-soft: #fffbeb;
-  --color-warn-line: #fde68a;
+  /* Sidebar hijau tua */
+  --color-side: #0e3a28;
+  --color-side-2: #14503a;
+  --color-side-ink: #cfe4d8;
+  --color-side-line: rgb(255 255 255 / 0.08);
 
-  --color-danger: #b91c1c;
-  --color-danger-soft: #fef2f2;
-  --color-danger-line: #fecaca;
+  --color-warn: #a65a08;
+  --color-warn-soft: #fff8e6;
+  --color-warn-line: #f6dfa0;
 
-  --color-info: #1d4ed8;
-  --color-info-soft: #eff6ff;
-  --color-info-line: #bfdbfe;
+  --color-danger: #b42318;
+  --color-danger-soft: #fef1f0;
+  --color-danger-line: #f8cdc8;
 
-  --radius-control: 8px;
-  --radius-card: 12px;
-  --shadow-card: 0 1px 2px 0 rgb(23 33 27 / 0.04);
-  --shadow-pop: 0 8px 24px -6px rgb(23 33 27 / 0.14), 0 2px 6px -2px rgb(23 33 27 / 0.06);
+  --color-info: #2457c5;
+  --color-info-soft: #eef4ff;
+  --color-info-line: #c6d8fb;
+
+  --radius-control: 12px;
+  --radius-card: 20px;
+  --shadow-card: 0 1px 2px 0 rgb(14 58 40 / 0.04), 0 10px 28px -16px rgb(14 58 40 / 0.14);
+  --shadow-pop: 0 18px 44px -14px rgb(14 58 40 / 0.28), 0 4px 12px -4px rgb(14 58 40 / 0.1);
+  --shadow-soft: 0 6px 22px -10px rgb(14 58 40 / 0.22);
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
   }
-  body {
+  html {
     background: var(--color-canvas);
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    background:
+      radial-gradient(900px 480px at 0% -8%, rgb(197 230 210 / 0.55), transparent 62%),
+      radial-gradient(760px 420px at 100% -6%, rgb(255 238 190 / 0.42), transparent 60%),
+      var(--color-canvas);
+    background-attachment: fixed;
     color: var(--color-ink);
     font-family: var(--font-sans);
     font-feature-settings: "cv11", "ss01";
+    overscroll-behavior-y: none;
+  }
+  button,
+  [role="button"],
+  a,
+  input,
+  select,
+  textarea {
+    touch-action: manipulation;
   }
   *,
   ::before,
@@ -81,6 +106,50 @@
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+/* Mode terpasang (PWA): beri ruang untuk area aman perangkat. */
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+@media (display-mode: standalone) {
+  body {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  input,
+  textarea,
+  [contenteditable] {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Latar halaman masuk: kaca oranye ke hijau, pelan bergerak. */
+.auth-bg {
+  background-color: #f6faf6;
+  background-image: url("/login-bg.webp");
+  background-size: cover;
+  background-position: 18% 40%;
+  background-repeat: no-repeat;
+}
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.float-soft {
+  animation: float-soft 7s ease-in-out infinite;
 }
 
 @media print {

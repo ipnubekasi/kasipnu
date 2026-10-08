@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowDown, ArrowUp, ArrowUpDown, CheckCheck } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, CheckCheck } from "@/components/ui/icons";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { formatDate } from "@/lib/format";

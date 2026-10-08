@@ -8,9 +8,10 @@ export function Toaster() {
       position="top-center"
       richColors={false}
       closeButton
+      mobileOffset={{ top: "calc(env(safe-area-inset-top) + 12px)", left: 12, right: 12 }}
       toastOptions={{
         classNames: {
-          toast: "!rounded-control !border-line !bg-surface !text-ink !shadow-pop !font-sans",
+          toast: "!rounded-2xl !border-line !bg-surface !text-ink !shadow-pop !font-sans",
           description: "!text-muted",
           success: "[&_[data-icon]]:!text-accent",
           error: "[&_[data-icon]]:!text-danger",

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { FlaskConical, Trash2 } from "lucide-react";
+import { FlaskConical, Trash2 } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/app/confirm-dialog";

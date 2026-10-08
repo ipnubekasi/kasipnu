@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Daftar" };
 
 export default function SignupPage() {
   return (
-    <AuthCard title="Daftar" subtitle="Buat akun untuk mulai memakai Kas IPNU. Akses data ditentukan oleh Admin Organisasi.">
+    <AuthCard tab="daftar" title="Buat akun baru" subtitle="Akses data ditentukan oleh Admin Organisasi setelah Anda mendaftar.">
       <SignupForm />
     </AuthCard>
   );

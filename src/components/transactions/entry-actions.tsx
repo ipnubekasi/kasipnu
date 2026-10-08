@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { CheckCheck, Pencil, Trash2, Undo2 } from "lucide-react";
+import { CheckCheck, Pencil, Trash2, Undo2 } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
 import { formatRupiah, todayJakarta } from "@/lib/format";
 import type { Entry } from "@/lib/types";
