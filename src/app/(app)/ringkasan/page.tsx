@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CircleCheck, FileQuestion, FlaskConical, Landmark, PencilLine, Plus, Scale, Wallet } from "@/components/ui/icons";
+import { ArrowDownLeft, ArrowRight, ArrowUpRight, CircleCheck, FileQuestion, FlaskConical, Landmark, PencilLine, Plus, Scale, Wallet } from "@/components/ui/icons";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +10,6 @@ import { Money } from "@/components/app/money";
 import { PageHeader } from "@/components/app/page-header";
 import { EmptyState } from "@/components/app/states";
 import { PeriodSelect, ScopeSelect } from "@/components/app/url-controls";
-import { FlowStrip } from "@/components/cash/flow-strip";
 import { CombinedNotice } from "@/components/cash/scope-notice";
 import { CashFlowChart } from "@/components/charts/cash-flow-chart";
 import { HealthPanel } from "@/components/health/health-panel";
@@ -22,14 +21,17 @@ import { cn, param, qs } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Ringkasan" };
 
-function Stat({ label, sub, href, children }: { label: string; sub: string; href: string; children: React.ReactNode }) {
+function Stat({ label, sub, href, icon: Icon, index, children }: { label: string; sub: string; href: string; icon: React.ComponentType<{ className?: string }>; index: number; children: React.ReactNode }) {
   return (
-    <Link href={href} className="group rounded-card border border-line bg-surface p-4 shadow-card transition-colors hover:border-line-strong sm:p-5">
-      <p className="flex items-center justify-between text-[13px] text-muted">
-        {label}
-        <ArrowRight className="size-3.5 text-faint opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden />
-      </p>
-      <p className="mt-1.5 text-xl font-semibold tracking-tight sm:text-2xl">{children}</p>
+    <Link href={href} style={{ ["--i" as string]: index }} className="group rise flex flex-col rounded-card border border-line bg-surface p-4 transition-colors hover:border-line-strong sm:p-5">
+      <span className="flex items-start justify-between gap-2">
+        <span className="inline-flex size-11 items-center justify-center rounded-xl bg-subtle text-primary">
+          <Icon className="size-[22px]" aria-hidden />
+        </span>
+        <ArrowRight className="mt-1 size-4 -translate-x-1 text-primary opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden />
+      </span>
+      <p className="mt-4 text-[13px] font-medium text-muted">{label}</p>
+      <p className="mt-0.5 text-[19px] font-semibold tracking-tight text-ink min-[420px]:text-[22px] sm:text-2xl">{children}</p>
       <p className="mt-1 text-[12px] text-muted">{sub}</p>
     </Link>
   );
@@ -126,23 +128,20 @@ export default async function SummaryPage({ searchParams }: { searchParams: Prom
       )}
 
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-        <Stat label="Saldo akhir" sub={`Per ${formatDate(period.to)}`} href={`/kas${qs({ ...base, periode: "semua", dari: null, sampai: null })}`}>
+        <Stat index={0} icon={Wallet} label="Saldo akhir" sub={`Per ${formatDate(period.to)}`} href={`/kas${qs({ ...base, periode: "semua", dari: null, sampai: null })}`}>
           <Money value={summary.closing} tone="auto" />
         </Stat>
-        <Stat label="Pemasukan eksternal" sub="Tanpa transfer dan saldo awal" href={`/kas${qs({ ...base, jenis: "pemasukan" })}`}>
+        <Stat index={1} icon={ArrowDownLeft} label="Pemasukan eksternal" sub="Tanpa transfer dan saldo awal" href={`/kas${qs({ ...base, jenis: "pemasukan" })}`}>
           <Money value={summary.income} />
         </Stat>
-        <Stat label="Pengeluaran eksternal" sub="Tanpa transfer internal" href={`/kas${qs({ ...base, jenis: "pengeluaran" })}`}>
+        <Stat index={2} icon={ArrowUpRight} label="Pengeluaran eksternal" sub="Tanpa transfer internal" href={`/kas${qs({ ...base, jenis: "pengeluaran" })}`}>
           <Money value={summary.expense} />
         </Stat>
-        <Stat label="Arus kas bersih" sub={net < 0 ? "Defisit pada periode ini" : net > 0 ? "Surplus pada periode ini" : "Seimbang"} href={`/kas${qs(base)}`}>
+        <Stat index={3} icon={Scale} label="Arus kas bersih" sub={net < 0 ? "Defisit pada periode ini" : net > 0 ? "Surplus pada periode ini" : "Seimbang"} href={`/kas${qs(base)}`}>
           <Money value={net} tone={net < 0 ? "out" : undefined} sign />
         </Stat>
       </div>
 
-      <Card className="mt-3 px-4 py-3 sm:px-5">
-        <FlowStrip s={summary} from={period.from} to={period.to} showTransfers={scope.kind !== "gabungan"} />
-      </Card>
 
       {scope.kind !== "program" && <div className="mt-5"><HealthPanel health={health} /></div>}
 

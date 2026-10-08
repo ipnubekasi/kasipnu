@@ -20,10 +20,10 @@ function DialogContent({
         className={cn(
           "fixed z-50 flex flex-col bg-surface shadow-pop outline-none data-[state=open]:animate-in data-[state=closed]:animate-out",
           side === "left"
-            ? "inset-y-3 left-3 w-[300px] rounded-[28px] data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left"
+            ? "inset-y-3 left-3 w-[300px] rounded-2xl data-[state=open]:slide-in-from-left data-[state=closed]:slide-out-to-left"
             : side === "bottom"
-              ? "inset-x-0 bottom-0 max-h-[85dvh] rounded-t-[28px] pb-[env(safe-area-inset-bottom)] data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom"
-              : cn("inset-x-0 bottom-0 max-h-[92dvh] rounded-t-[28px] pb-[env(safe-area-inset-bottom)] data-[state=open]:slide-in-from-bottom-4 data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card", width),
+              ? "inset-x-0 bottom-0 max-h-[85dvh] rounded-t-2xl pb-[env(safe-area-inset-bottom)] data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom"
+              : cn("inset-x-0 bottom-0 max-h-[92dvh] rounded-t-2xl pb-[env(safe-area-inset-bottom)] data-[state=open]:slide-in-from-bottom-4 data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:w-full sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-card", width),
           className,
         )}
         {...props}

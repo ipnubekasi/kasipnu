@@ -9,7 +9,7 @@ export function AuthCard({ title, subtitle, tab, children }: { title: string; su
   return (
     <div
       className={cn(
-        "rounded-[32px] border border-white/80 bg-white/75 p-6 shadow-pop backdrop-blur-2xl sm:p-8",
+        "rounded-[28px] border border-white/70 bg-white/70 p-6 shadow-[0_24px_60px_-24px_rgb(14_58_40/0.35)] backdrop-blur-xl sm:p-8",
         "[&_input:not([type=checkbox])]:h-12 [&_input:not([type=checkbox])]:rounded-2xl [&_input:not([type=checkbox])]:border-white [&_input:not([type=checkbox])]:bg-[#eef5f0]/80 [&_input:not([type=checkbox])]:shadow-[inset_0_0_0_1px_rgb(14_58_40/0.06)]",
         "[&_input:focus-visible]:bg-white",
       )}

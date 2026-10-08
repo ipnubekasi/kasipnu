@@ -12,7 +12,7 @@ function DropdownMenuContent({ className, sideOffset = 6, ...props }: React.Comp
     <Primitive.Portal>
       <Primitive.Content
         sideOffset={sideOffset}
-        className={cn("z-50 min-w-48 rounded-2xl border border-line/80 bg-surface p-1.5 shadow-pop data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95", className)}
+        className={cn("z-50 min-w-48 rounded-lg border border-line/80 bg-surface p-1.5 shadow-pop data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95", className)}
         {...props}
       />
     </Primitive.Portal>

@@ -8,7 +8,7 @@ import { Money } from "@/components/app/money";
 
 // Pasangan warna sudah divalidasi untuk buta warna (deutan/protan) dan kontras terhadap latar putih.
 // Identitas seri juga dibawa legenda dan tampilan tabel, bukan warna saja.
-export const SERIES = { income: "#166534", expense: "#F26464" } as const;
+export const SERIES = { income: "#15724a", expense: "#d4a900" } as const;
 
 type Row = { month: string; income: number; expense: number };
 

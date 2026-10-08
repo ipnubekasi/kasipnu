@@ -12,9 +12,9 @@ export function InstallCard({ tone = "side", className }: { tone?: "side" | "lig
   if (isStandalone || (!canInstall && !isIos)) return null;
   const dark = tone === "side";
   return (
-    <div className={cn("rounded-3xl p-4", dark ? "bg-white/[0.07] text-side-ink ring-1 ring-white/10" : "bg-accent-soft text-ink ring-1 ring-accent-line", className)}>
+    <div className={cn("rounded-xl p-4", dark ? "bg-white/[0.07] text-side-ink ring-1 ring-white/10" : "bg-accent-soft text-ink ring-1 ring-accent-line", className)}>
       <div className="flex items-center gap-3">
-        <span className={cn("inline-flex size-10 shrink-0 items-center justify-center rounded-2xl", dark ? "bg-white/10 text-white" : "bg-white text-primary shadow-soft")}>
+        <span className={cn("inline-flex size-10 shrink-0 items-center justify-center rounded-lg", dark ? "bg-white/10 text-white" : "bg-white text-primary shadow-soft")}>
           <IoPhonePortraitOutline className="size-5" aria-hidden />
         </span>
         <div className="min-w-0 leading-tight">
@@ -23,12 +23,12 @@ export function InstallCard({ tone = "side", className }: { tone?: "side" | "lig
         </div>
       </div>
       {canInstall ? (
-        <button type="button" onClick={install} className={cn("mt-3 h-10 w-full rounded-2xl text-[13px] font-semibold transition-transform active:scale-[0.98]", dark ? "bg-white text-side hover:bg-white/90" : "bg-primary text-white")}>
+        <button type="button" onClick={install} className={cn("mt-3 h-10 w-full rounded-lg text-[13px] font-semibold transition-transform active:scale-[0.98]", dark ? "bg-white text-side hover:bg-white/90" : "bg-primary text-white")}>
           Pasang aplikasi
         </button>
       ) : (
         <>
-          <button type="button" onClick={() => setShowHow((v) => !v)} aria-expanded={showHow} className={cn("mt-3 h-10 w-full rounded-2xl text-[13px] font-semibold transition-transform active:scale-[0.98]", dark ? "bg-white text-side" : "bg-primary text-white")}>
+          <button type="button" onClick={() => setShowHow((v) => !v)} aria-expanded={showHow} className={cn("mt-3 h-10 w-full rounded-lg text-[13px] font-semibold transition-transform active:scale-[0.98]", dark ? "bg-white text-side" : "bg-primary text-white")}>
             Lihat caranya
           </button>
           {showHow && (
