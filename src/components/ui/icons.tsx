@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { IconType } from "react-icons";
 import {
+  IoCalendarOutline,
   IoAddOutline, IoArchiveOutline, IoArrowBackOutline, IoArrowDownOutline, IoArrowForwardOutline, IoArrowUndoOutline, IoArrowUpOutline,
   IoAttachOutline, IoBanOutline, IoBarChartOutline, IoBookOutline, IoBusinessOutline, IoCameraOutline, IoCheckmarkCircleOutline,
   IoCheckmarkDoneOutline, IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline, IoCloseCircleOutline, IoCloseOutline,
@@ -106,3 +107,4 @@ export const XCircle = make(IoCloseCircleOutline, 0, "XCircle");
 export const ArrowLeft = make(IoArrowBackOutline, 0, "ArrowLeft");
 export const Home = make(IoHomeOutline, 0, "Home");
 export const SlidersHorizontal = make(IoOptionsOutline, 0, "SlidersHorizontal");
+export const CalendarDays = make(IoCalendarOutline, 0, "CalendarDays");

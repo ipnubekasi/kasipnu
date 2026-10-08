@@ -2,15 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { FolderKanban } from "@/components/ui/icons";
 import { Card } from "@/components/ui/card";
-import { Table, TBody, TD, TH, THead, TR } from "@/components/ui/table";
-import { HealthBadge, ProgramStatusBadge } from "@/components/app/badges";
-import { Money } from "@/components/app/money";
 import { PageHeader } from "@/components/app/page-header";
 import { EmptyState } from "@/components/app/states";
 import { UrlSelect } from "@/components/app/url-controls";
+import { ProgramCard } from "@/components/programs/program-card";
 import { ProgramDialogButton } from "@/components/programs/program-dialog";
 import { getAppContext, getMaster } from "@/lib/context";
-import { formatDate, formatPercent } from "@/lib/format";
 import { fetchHealth, fetchProgramSummary } from "@/lib/queries";
 import { param } from "@/lib/utils";
 
@@ -45,52 +42,15 @@ export default async function ProgramsPage({ searchParams }: { searchParams: Pro
             <EmptyState icon={FolderKanban} title="Tidak ada program dengan status ini" description="Coba pilih status lain." action={<Link href="/program?status=semua" className="text-sm font-medium text-accent underline underline-offset-2">Tampilkan semua program</Link>} />
           )
         ) : (
-          <>
-            <div className="hidden md:block">
-              <Table>
-                <THead><TR className="hover:bg-transparent"><TH>Program</TH><TH>Pelaksanaan</TH><TH className="text-right">Anggaran</TH><TH className="text-right">Realisasi</TH><TH className="text-right">Sisa anggaran</TH><TH className="text-right">Sisa dana</TH></TR></THead>
-                <TBody>
-                  {list.map((p) => {
-                    const s = summary.find((x) => x.program_id === p.id);
-                    const h = health.programs.find((x) => x.program_id === p.id);
-                    const pct = s && Number(s.budget_expense) > 0 ? (Number(s.expense) / Number(s.budget_expense)) * 100 : null;
-                    return (
-                      <TR key={p.id}>
-                        <TD>
-                          <Link href={`/program/${p.id}`} className="font-medium text-ink hover:underline">{p.name}</Link>
-                          <span className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[12px] text-muted">{p.code}<ProgramStatusBadge status={p.status} />{h && (h.status === "kritis" || h.status === "perlu_perhatian") && <HealthBadge status={h.status} />}</span>
-                        </TD>
-                        <TD className="text-muted">{p.start_date ? formatDate(p.start_date) : "Belum ditentukan"}{p.pic_name && <span className="block text-[12px]">PJ: {p.pic_name}</span>}</TD>
-                        <TD className="num"><Money value={s?.budget_expense} dashZero /></TD>
-                        <TD className="num"><Money value={s?.expense} dashZero />{pct !== null && <span className="block text-[12px] text-muted">{formatPercent(pct)}</span>}</TD>
-                        <TD className="num"><Money value={Number(s?.budget_expense ?? 0) - Number(s?.expense ?? 0)} tone="auto" /></TD>
-                        <TD className="num font-medium"><Money value={s?.fund_balance} tone="auto" /></TD>
-                      </TR>
-                    );
-                  })}
-                </TBody>
-              </Table>
-            </div>
-            <ul className="divide-y divide-line md:hidden">
-              {list.map((p) => {
-                const s = summary.find((x) => x.program_id === p.id);
-                return (
-                  <li key={p.id}>
-                    <Link href={`/program/${p.id}`} className="block px-4 py-3">
-                      <span className="flex items-start justify-between gap-3"><span className="font-medium text-ink">{p.name}</span><ProgramStatusBadge status={p.status} /></span>
-                      <span className="mt-1.5 grid grid-cols-3 gap-2 text-[12px] text-muted">
-                        <span>Anggaran<Money value={s?.budget_expense} className="block text-sm text-ink" /></span>
-                        <span>Realisasi<Money value={s?.expense} className="block text-sm text-ink" /></span>
-                        <span>Sisa dana<Money value={s?.fund_balance} className="block text-sm font-medium text-ink" tone="auto" /></span>
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </>
+          <div className="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2 xl:grid-cols-3">
+            {list.map((p) => {
+              const s = summary.find((x) => x.program_id === p.id);
+              const h = health.programs.find((x) => x.program_id === p.id);
+              return <ProgramCard key={p.id} program={p} budget={Number(s?.budget_expense ?? 0)} expense={Number(s?.expense ?? 0)} balance={Number(s?.fund_balance ?? 0)} health={h?.status} />;
+            })}
+          </div>
         )}
-        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Sisa anggaran adalah rencana. Sisa dana adalah uang yang tersedia.</p>
+        <p className="border-t border-line px-4 py-3 text-[13px] text-muted sm:px-5">Anggaran adalah rencana. Sisa dana adalah uang yang tersedia.</p>
       </Card>
     </>
   );
