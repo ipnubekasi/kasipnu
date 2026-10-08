@@ -5,7 +5,7 @@ import {
   IoAttachOutline, IoBanOutline, IoBarChartOutline, IoBookOutline, IoBusinessOutline, IoCameraOutline, IoCheckmarkCircleOutline,
   IoCheckmarkDoneOutline, IoChevronBackOutline, IoChevronDownOutline, IoChevronForwardOutline, IoCloseCircleOutline, IoCloseOutline,
   IoCloudUploadOutline, IoCreateOutline, IoDocumentTextOutline, IoDownloadOutline, IoEllipseOutline, IoEllipsisHorizontal, IoEyeOffOutline,
-  IoEyeOutline, IoFlagOutline, IoFlaskOutline, IoFolderOpenOutline, IoGridOutline, IoHelpCircleOutline, IoImageOutline,
+  IoEyeOutline, IoFlagOutline, IoFlaskOutline, IoFolderOpenOutline, IoGridOutline, IoHomeOutline, IoHelpCircleOutline, IoImageOutline,
   IoInformationCircleOutline, IoListOutline, IoLockClosedOutline, IoLogOutOutline, IoMenuOutline, IoNotificationsOffOutline,
   IoNotificationsOutline, IoPersonAddOutline, IoPersonOutline, IoQrCodeOutline, IoReaderOutline, IoReceiptOutline, IoRefreshOutline,
   IoReloadOutline, IoRemoveCircleOutline, IoScaleOutline, IoSearchOutline, IoSettingsOutline, IoShieldCheckmarkOutline, IoShieldOutline,
@@ -104,3 +104,4 @@ export const Wallet = make(IoWalletOutline, 0, "Wallet");
 export const X = make(IoCloseOutline, 0, "X");
 export const XCircle = make(IoCloseCircleOutline, 0, "XCircle");
 export const ArrowLeft = make(IoArrowBackOutline, 0, "ArrowLeft");
+export const Home = make(IoHomeOutline, 0, "Home");

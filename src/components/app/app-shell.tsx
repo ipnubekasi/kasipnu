@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Archive, ArrowUpRight, Bell, BookOpenText, ChevronDown, ChevronLeft, ChevronRight, FileBarChart, FlaskConical, FolderKanban, HeartPulse, LayoutDashboard, LogOut, MoreHorizontal, Plus, RefreshCw, Search, Settings, UserRound, Wallet } from "@/components/ui/icons";
+import { Archive, ArrowUpRight, Bell, BookOpenText, ChevronDown, ChevronLeft, ChevronRight, FileBarChart, FlaskConical, FolderKanban, HeartPulse, Home, LayoutDashboard, LogOut, MoreHorizontal, Plus, RefreshCw, Search, Settings, UserRound, Wallet } from "@/components/ui/icons";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { NAV, ROLE_LABEL } from "@/lib/labels";
@@ -418,7 +418,9 @@ export function AppShell(props: ShellProps) {
               <Plus className="size-7" aria-hidden />
             </Link>
           ) : (
-            <span className="h-14" />
+            <Link href="/ringkasan" aria-label="Beranda, kembali ke Ringkasan" className="-mt-8 inline-flex size-[58px] items-center justify-center rounded-full bg-pill text-pill-ink shadow-[0_12px_26px_-8px_rgb(120_110_10/0.6)] ring-[5px] ring-white transition-transform active:scale-95">
+              <Home className="size-7" aria-hidden />
+            </Link>
           )}
         </div>
         <MobileTab href="/program" label="Program" icon={FolderKanban} active={isActive(pathname, "/program")} />

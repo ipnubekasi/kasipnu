@@ -5,7 +5,8 @@ const fieldBase =
   "w-full rounded-control border border-line-strong bg-surface px-3.5 text-base text-ink placeholder:text-faint transition-colors focus-visible:border-accent focus-visible:outline-[3px] focus-visible:outline-offset-0 focus-visible:outline-accent/20 disabled:cursor-not-allowed disabled:bg-subtle disabled:text-muted aria-invalid:border-danger sm:px-3 sm:text-sm";
 
 function Input({ className, type = "text", ...props }: React.ComponentProps<"input">) {
-  return <input type={type} className={cn(fieldBase, "h-11 sm:h-10", className)} {...props} />;
+  const dateLike = type === "date" || type === "time" || type === "month" || type === "datetime-local";
+  return <input type={type} className={cn(fieldBase, "h-11 sm:h-10", dateLike && "block min-w-0 max-w-full appearance-none text-left [&::-webkit-date-and-time-value]:text-left", className)} {...props} />;
 }
 
 function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
