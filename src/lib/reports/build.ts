@@ -280,19 +280,26 @@ export async function buildReport(key: ReportKey, f: ReportFilters, c: Ctx): Pro
       const lines = await ledger(c, f);
       const rows: Row[] = [];
       let last = "";
-      let td = 0, tk = 0;
+      let td = 0, tk = 0, bd = 0, bk = 0;
       for (const l of lines) {
+        const batal = l.entry_status === "dibalik" || l.kind === "pembalikan";
         if (l.entry_id !== last) {
-          rows.push({ date: l.entry_date, ref: l.ref_no, account: l.description, fund: "", debit: null, credit: null, _bold: true, _href: `/kas/${l.entry_id}` });
+          const tag = l.kind === "pembalikan" ? " (pembatalan)" : l.entry_status === "dibalik" ? " (dibatalkan)" : "";
+          rows.push({ date: l.entry_date, ref: l.ref_no, account: `${l.description}${tag}`, fund: "", debit: null, credit: null, _bold: true, _href: `/kas/${l.entry_id}` });
           last = l.entry_id;
         }
         rows.push({ date: null, ref: "", account: `${l.account_code} ${l.account_name}`, fund: l.fund_name, debit: n(l.debit) || null, credit: n(l.credit) || null, _indent: n(l.credit) > 0 });
-        td += n(l.debit);
-        tk += n(l.credit);
+        if (batal) { bd += n(l.debit); bk += n(l.credit); } else { td += n(l.debit); tk += n(l.credit); }
       }
-      base.summary = [{ label: "Jumlah debit", value: td, type: "money" }, { label: "Jumlah kredit", value: tk, type: "money" }, { label: "Keseimbangan", value: td === tk ? "Seimbang" : "TIDAK SEIMBANG", type: "text", strong: true }];
-      base.sections = [{ columns: [{ key: "date", label: "Tanggal", type: "date", width: 2 }, { key: "ref", label: "Nomor", width: 2.4 }, { key: "account", label: "Uraian / Akun", width: 6.5 }, { key: "fund", label: "Dana", width: 2.8 }, { key: "debit", label: "Debit", type: "money", width: 2.6 }, { key: "credit", label: "Kredit", type: "money", width: 2.6 }], rows, totals: { date: null, ref: "", account: "Jumlah", fund: "", debit: td, credit: tk }, emptyText: "Tidak ada jurnal pada periode ini." }];
-      base.notes.push("Mencakup jurnal otomatis, jurnal penyesuaian, dan jurnal pembatalan dari sumber data yang sama.");
+      const adaBatal = bd !== 0 || bk !== 0;
+      base.summary = [
+        { label: "Debit transaksi aktif", value: td, type: "money" },
+        { label: "Kredit transaksi aktif", value: tk, type: "money" },
+        ...(adaBatal ? [{ label: "Debit transaksi yang dibatalkan dan pembatalannya", value: bd, type: "money" as const }, { label: "Kredit transaksi yang dibatalkan dan pembatalannya", value: bk, type: "money" as const }] : []),
+        { label: "Keseimbangan", value: td === tk && bd === bk ? "Seimbang" : "TIDAK SEIMBANG", type: "text", strong: true },
+      ];
+      base.sections = [{ columns: [{ key: "date", label: "Tanggal", type: "date", width: 2 }, { key: "ref", label: "Nomor", width: 2.4 }, { key: "account", label: "Uraian / Akun", width: 6.5 }, { key: "fund", label: "Dana", width: 2.8 }, { key: "debit", label: "Debit", type: "money", width: 2.6 }, { key: "credit", label: "Kredit", type: "money", width: 2.6 }], rows, totals: { date: null, ref: "", account: "Jumlah transaksi aktif", fund: "", debit: td, credit: tk }, emptyText: "Tidak ada jurnal pada periode ini." }];
+      base.notes.push(adaBatal ? "Transaksi yang dibatalkan dan jurnal pembatalannya tetap ditampilkan sebagai catatan, tetapi dijumlahkan terpisah." : "Mencakup jurnal otomatis dan jurnal penyesuaian.");
       base.landscape = true;
       break;
     }
